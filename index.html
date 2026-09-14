@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MTs Muhammadiyah Donorejo — Future Leaders School</title>
+<meta name="description" content="Tempat anak tumbuh dengan ilmu, karakter, Al-Qur'an, dan keberanian untuk melangkah lebih jauh. SPMB MTs Muhammadiyah Donorejo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,400..700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MTs MUHAMMADIYAH DONOREJO — Future Leaders School
+   Single file: HTML + CSS + JS
+   Ganti bagian bertanda [ASET] dengan foto/video asli.
+   ============================================================ */
+
+:root{
+  --ink:#0A1628;
+  --ink-2:#12243D;
+  --blue:#0B5FAD;
+  --blue-deep:#084A88;
+  --cyan:#22D3F5;
+  --paper:#F5F8FC;
+  --white:#FFFFFF;
+  --line:#DCE5F0;
+  --line-dark:rgba(255,255,255,.14);
+  --muted:#5A6B82;
+  --muted-dark:#9FB3CC;
+
+  --font:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+
+  --wrap:1200px;
+  --gut:clamp(20px,5vw,64px);
+  --sec:clamp(88px,11vw,160px);
+  --r-s:14px;
+  --r-m:22px;
+  --r-l:32px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:var(--font);
+  background:var(--white);
+  color:var(--ink);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;border-radius:4px}
+
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+.section{padding:var(--sec) 0}
+
+/* ---------- type scale ---------- */
+.display{
+  font-size:clamp(2.7rem,8.2vw,6.1rem);
+  line-height:.98;
+  font-weight:800;
+  letter-spacing:-.045em;
+  margin:0;
+}
+.h2{
+  font-size:clamp(2.1rem,5.4vw,3.9rem);
+  line-height:1.03;
+  font-weight:800;
+  letter-spacing:-.038em;
+  margin:0;
+}
+.h3{
+  font-size:clamp(1.25rem,2.2vw,1.6rem);
+  line-height:1.2;
+  font-weight:700;
+  letter-spacing:-.02em;
+  margin:0;
+}
+.lead{
+  font-size:clamp(1.05rem,1.55vw,1.28rem);
+  line-height:1.62;
+  color:var(--muted);
+  max-width:46ch;
+  margin:0;
+}
+.on-dark .lead,.lead.on-dark{color:var(--muted-dark)}
+
+.tag{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:.83rem;font-weight:600;letter-spacing:.01em;
+  color:var(--blue);
+}
+.tag::before{
+  content:"";width:7px;height:7px;border-radius:50%;
+  background:var(--cyan);flex:none;
+  box-shadow:0 0 0 4px rgba(34,211,245,.18);
+}
+.on-dark .tag{color:#BFE9F8}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  height:56px;padding:0 30px;border-radius:999px;
+  font-weight:700;font-size:1rem;letter-spacing:-.01em;
+  transition:transform .18s ease,box-shadow .22s ease,background .2s ease,color .2s ease;
+  white-space:nowrap;
+}
+.btn-primary{
+  background:var(--blue);color:#fff;
+  box-shadow:0 10px 24px -10px rgba(11,95,173,.75);
+}
+.btn-primary:hover{background:var(--blue-deep);transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(11,95,173,.85)}
+.btn-glow{background:var(--cyan);color:var(--ink);box-shadow:0 12px 34px -12px rgba(34,211,245,.85)}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 18px 40px -14px rgba(34,211,245,1)}
+.btn-ghost{border:1.5px solid var(--line);color:var(--ink);background:#fff}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-ghost-dark{border:1.5px solid var(--line-dark);color:#fff}
+.btn-ghost-dark:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+.btn-sm{height:46px;padding:0 22px;font-size:.94rem}
+
+/* ---------- header ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:80;
+  transition:background .3s ease,box-shadow .3s ease,backdrop-filter .3s ease;
+}
+.nav-in{
+  height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;transition:color .3s ease}
+.mark{
+  width:40px;height:40px;border-radius:12px;flex:none;
+  background:linear-gradient(145deg,var(--cyan),var(--blue));
+  display:grid;place-items:center;
+  font-weight:800;color:var(--ink);font-size:1.05rem;letter-spacing:-.04em;
+}
+.brand-txt{display:flex;flex-direction:column;line-height:1.18}
+.brand-name{font-weight:800;font-size:.96rem;letter-spacing:-.02em}
+.brand-sub{font-size:.73rem;font-weight:500;opacity:.72}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-size:.95rem;font-weight:600;color:rgba(255,255,255,.82);transition:color .2s ease}
+.nav-links a:hover{color:#fff}
+.nav.solid{background:rgba(255,255,255,.88);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line)}
+.nav.solid .brand{color:var(--ink)}
+.nav.solid .nav-links a{color:var(--muted)}
+.nav.solid .nav-links a:hover{color:var(--ink)}
+.nav.solid .btn-glow{background:var(--blue);color:#fff;box-shadow:0 10px 24px -12px rgba(11,95,173,.8)}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;overflow:hidden;
+  background:var(--ink);color:#fff;
+  padding:clamp(140px,17vw,190px) 0 0;
+}
+.hero::before{
+  content:"";position:absolute;inset:-30% -10% auto -10%;height:120%;
+  background:
+    radial-gradient(45% 55% at 78% 18%,rgba(34,211,245,.30),transparent 65%),
+    radial-gradient(50% 60% at 12% 42%,rgba(11,95,173,.55),transparent 68%);
+  pointer-events:none;
+}
+.grid-lines{
+  position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line-dark) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--line-dark) 1px,transparent 1px);
+  background-size:88px 88px;
+  mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent 78%);
+  -webkit-mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent 78%);
+}
+.hero-in{position:relative;z-index:2}
+.hero h1{margin:18px 0 0;max-width:15ch}
+.hero .lead{margin-top:26px;max-width:44ch;color:#C6D6EA;font-size:clamp(1.05rem,1.6vw,1.3rem)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+
+/* photo strip */
+.strip{
+  position:relative;z-index:2;
+  margin-top:clamp(56px,7vw,86px);
+  display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:16px;
+  padding-bottom:clamp(56px,7vw,86px);
+}
+.shot{
+  position:relative;border-radius:var(--r-m);overflow:hidden;
+  aspect-ratio:4/3;
+  border:1px solid var(--line-dark);
+  background:linear-gradient(150deg,#16304F,#0D1F35);
+}
+.shot:first-child{aspect-ratio:16/11}
+.shot-label{
+  position:absolute;inset:auto 0 0 0;padding:16px 18px;
+  font-size:.78rem;font-weight:600;color:#93A9C4;
+  display:flex;align-items:center;gap:8px;
+}
+.shot-label::before{content:"";width:16px;height:1.5px;background:var(--cyan);flex:none}
+
+/* ---------- why us ---------- */
+.why{background:var(--white)}
+.why-top{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(32px,6vw,80px);align-items:end}
+.triple{
+  display:flex;flex-direction:column;gap:2px;
+  font-size:clamp(1.6rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.035em;line-height:1.1;
+}
+.triple span{position:relative;padding-left:0;transition:color .25s ease,transform .25s ease}
+.triple span:nth-child(2){color:var(--blue)}
+.triple span:nth-child(3){color:var(--cyan)}
+
+.pillars{
+  margin-top:clamp(52px,6vw,78px);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+}
+.pillar{
+  border:1px solid var(--line);border-radius:var(--r-m);
+  padding:30px 26px 34px;background:var(--white);
+  transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease;
+}
+.pillar:hover{border-color:#B9D4EC;transform:translateY(-4px);box-shadow:0 22px 40px -28px rgba(10,22,40,.5)}
+.pic{width:44px;height:44px;margin-bottom:22px;color:var(--blue)}
+.pic svg{width:100%;height:100%;display:block}
+.pillar p{margin:10px 0 0;color:var(--muted);font-size:.98rem;line-height:1.58}
+
+/* ---------- program ---------- */
+.program{background:var(--paper)}
+.prog-head{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:end}
+.prog-grid{
+  margin-top:clamp(46px,5.5vw,70px);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+}
+.card{
+  position:relative;overflow:hidden;
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
+  padding:30px;display:flex;flex-direction:column;min-height:270px;
+  transition:transform .28s ease,box-shadow .28s ease;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 28px 50px -34px rgba(10,22,40,.55)}
+.card .media{
+  margin:-30px -30px 24px;height:170px;
+  background:linear-gradient(150deg,#123C67,#0A1628);
+  position:relative;
+}
+.card .media::after{
+  content:attr(data-asset);
+  position:absolute;left:20px;bottom:16px;
+  font-size:.75rem;font-weight:600;color:#8FA8C4;letter-spacing:.01em;
+}
+.card .k{font-size:.8rem;font-weight:700;color:var(--blue);letter-spacing:.02em;margin-bottom:10px}
+.card p{margin:10px 0 0;color:var(--muted);font-size:.97rem;line-height:1.56}
+.card.feature{
+  grid-column:span 2;color:#fff;
+  background:
+    radial-gradient(70% 90% at 88% 10%,rgba(34,211,245,.28),transparent 60%),
+    linear-gradient(140deg,var(--blue-deep),var(--ink) 72%);
+  border-color:transparent;justify-content:flex-end;min-height:340px;
+}
+.card.feature .k{color:var(--cyan)}
+.card.feature p{color:#C6D6EA;max-width:44ch}
+.card.feature .h3{font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.035em}
+
+/* ---------- experience ---------- */
+.exp{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.exp::before{
+  content:"";position:absolute;inset:auto -20% -40% -20%;height:70%;
+  background:radial-gradient(50% 60% at 50% 100%,rgba(11,95,173,.55),transparent 70%);
+}
+.exp-in{position:relative;z-index:2}
+.exp-head{max-width:34ch}
+.exp-head .h2{letter-spacing:-.045em}
+.stage{
+  margin-top:clamp(40px,5vw,64px);
+  position:relative;border-radius:var(--r-l);overflow:hidden;
+  aspect-ratio:16/8;border:1px solid var(--line-dark);
+  background:linear-gradient(140deg,#14314F,#08121F);
+  display:grid;place-items:center;
+}
+.stage::after{
+  content:"[ASET] Video kemah kepemimpinan";
+  position:absolute;left:24px;bottom:20px;
+  font-size:.8rem;font-weight:600;color:#8FA8C4;
+}
+.play{
+  width:clamp(74px,8vw,100px);height:clamp(74px,8vw,100px);border-radius:50%;
+  background:rgba(255,255,255,.1);backdrop-filter:blur(6px);
+  border:1.5px solid rgba(255,255,255,.4);
+  display:grid;place-items:center;
+  transition:transform .25s ease,background .25s ease;
+}
+.play:hover{transform:scale(1.07);background:var(--cyan);border-color:var(--cyan)}
+.play svg{width:26px;height:26px;fill:#fff;margin-left:4px;transition:fill .25s ease}
+.play:hover svg{fill:var(--ink)}
+.words{
+  margin-top:clamp(40px,5vw,60px);
+  display:flex;flex-wrap:wrap;gap:clamp(24px,5vw,70px);align-items:baseline;
+  border-top:1px solid var(--line-dark);padding-top:34px;
+}
+.words b{
+  font-size:clamp(1.5rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.04em;
+}
+.words b:nth-child(2){color:#7FD9F2}
+.words b:nth-child(3){color:var(--cyan)}
+
+/* ---------- alumni ---------- */
+.alumni{background:var(--white)}
+.al-head{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,6vw,80px);align-items:end}
+.rail{
+  margin-top:clamp(44px,5vw,66px);
+  display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding-bottom:18px;
+  scrollbar-width:thin;scrollbar-color:var(--line) transparent;
+}
+.rail::-webkit-scrollbar{height:6px}
+.rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+.al{
+  flex:0 0 clamp(230px,26vw,290px);scroll-snap-align:start;
+}
+.al .face{
+  aspect-ratio:3/4;border-radius:var(--r-m);overflow:hidden;
+  background:linear-gradient(160deg,#DCE9F6,#C3D8EC);
+  border:1px solid var(--line);position:relative;
+}
+.al .face::after{
+  content:"[ASET] Foto alumni";
+  position:absolute;left:16px;bottom:14px;font-size:.74rem;font-weight:600;color:#6E88A5;
+}
+.al h4{margin:16px 0 4px;font-size:1.05rem;font-weight:700;letter-spacing:-.02em}
+.al span{font-size:.92rem;color:var(--muted)}
+.al-close{
+  margin-top:clamp(40px,5vw,60px);padding-top:34px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center;
+}
+.al-close p{margin:0;font-size:clamp(1.15rem,2.3vw,1.7rem);font-weight:700;letter-spacing:-.03em;max-width:24ch}
+
+/* ---------- spmb ---------- */
+.spmb{
+  background:
+    radial-gradient(60% 80% at 80% 0%,rgba(34,211,245,.22),transparent 62%),
+    linear-gradient(160deg,var(--blue-deep),var(--ink) 68%);
+  color:#fff;text-align:center;position:relative;overflow:hidden;
+}
+.spmb .h2{max-width:18ch;margin:18px auto 0}
+.spmb-sub{margin:26px auto 0;max-width:40ch;color:#C6D6EA;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.7}
+.spmb-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:40px}
+.spmb .tag{justify-content:center}
+
+/* ---------- footer ---------- */
+.foot{background:var(--ink);color:#8FA8C4;padding:44px 0;border-top:1px solid var(--line-dark)}
+.foot-in{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center;font-size:.9rem}
+.foot .brand{color:#fff}
+
+/* ---------- entrance (hero only) ---------- */
+.rise{opacity:0;transform:translateY(22px)}
+.ready .rise{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.ready .d1{transition-delay:.05s}
+.ready .d2{transition-delay:.15s}
+.ready .d3{transition-delay:.25s}
+.ready .d4{transition-delay:.35s}
+.ready .d5{transition-delay:.45s}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .nav-links{display:none}
+  .why-top,.al-head{grid-template-columns:1fr;align-items:start}
+  .pillars{grid-template-columns:repeat(2,1fr)}
+  .prog-grid{grid-template-columns:repeat(2,1fr)}
+  .card.feature{grid-column:span 2}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip .shot:first-child{grid-column:span 2;aspect-ratio:16/9}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .pillars,.prog-grid{grid-template-columns:1fr}
+  .card.feature{grid-column:span 1}
+  .strip{grid-template-columns:1fr}
+  .strip .shot:first-child{grid-column:span 1}
+  .btn{width:100%}
+  .hero-cta,.spmb-cta{flex-direction:column}
+  .nav .btn{width:auto}
+  .stage{aspect-ratio:4/3}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rise{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <span class="mark">M</span>
+      <span class="brand-txt">
+        <span class="brand-name">MTs Muhammadiyah Donorejo</span>
+        <span class="brand-sub">Future Leaders School</span>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="#why">Kenapa kami</a>
+      <a href="#program">Program</a>
+      <a href="#experience">Pengalaman</a>
+      <a href="#alumni">Alumni</a>
+    </nav>
+    <a class="btn btn-glow btn-sm" href="#spmb">Daftar SPMB</a>
+  </div>
+</header>
+
+<!-- ============ 01 HERO ============ -->
+<section class="hero on-dark" id="top">
+  <div class="grid-lines"></div>
+  <div class="wrap hero-in">
+    <span class="tag rise d1">Future Leaders School</span>
+    <h1 class="display rise d2">Membentuk pemimpin masa depan.</h1>
+    <p class="lead rise d3">Tempat anak tumbuh dengan ilmu, karakter, Al-Qur'an, dan keberanian untuk melangkah lebih jauh.</p>
+    <div class="hero-cta rise d4">
+      <a class="btn btn-glow" href="#spmb">Daftar sekarang</a>
+      <a class="btn btn-ghost-dark" href="#experience">Lihat keseharian mereka</a>
+    </div>
+
+    <div class="strip rise d5">
+      <div class="shot"><span class="shot-label">[ASET] Foto siswa — momen utama</span></div>
+      <div class="shot"><span class="shot-label">[ASET] Kegiatan Qur'ani</span></div>
+      <div class="shot"><span class="shot-label">[ASET] Kemah kepemimpinan</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 WHY US ============ -->
+<section class="section why" id="why">
+  <div class="wrap">
+    <div class="why-top">
+      <div>
+        <span class="tag">Kenapa kami berbeda</span>
+        <h2 class="h2" style="margin-top:16px;max-width:13ch">Setiap anak punya potensi.</h2>
+      </div>
+      <div>
+        <p class="lead">Kami percaya setiap anak memiliki kelebihan yang berbeda. Karena itu, mereka perlu:</p>
+        <div class="triple" style="margin-top:24px">
+          <span>Dikenal.</span>
+          <span>Didampingi.</span>
+          <span>Diarahkan.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar">
+        <div class="pic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="17" r="8"/><path d="M9 41c2.5-8 8-12 15-12s12.5 4 15 12"/></svg></div>
+        <h3 class="h3">Pendampingan personal</h3>
+        <p>Setiap anak diperhatikan dan didampingi.</p>
+      </article>
+      <article class="pillar">
+        <div class="pic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 5l16 7v12c0 10-7 17-16 19C15 41 8 34 8 24V12z"/><path d="M17 24l5 5 10-10"/></svg></div>
+        <h3 class="h3">Karakter &amp; kepemimpinan</h3>
+        <p>Disiplin, tanggung jawab, percaya diri, dan jiwa kepemimpinan.</p>
+      </article>
+      <article class="pillar">
+        <div class="pic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16L24 7l20 9-20 9z"/><path d="M12 21v11c0 4 5.5 7 12 7s12-3 12-7V21"/><path d="M42 17v13"/></svg></div>
+        <h3 class="h3">Akademik</h3>
+        <p>Belajar dengan target dan arah.</p>
+      </article>
+      <article class="pillar">
+        <div class="pic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 14c-4-4-10-5-16-4v25c6-1 12 0 16 4 4-4 10-5 16-4V10c-6-1-12 0-16 4z"/><path d="M24 14v25"/></svg></div>
+        <h3 class="h3">Keagamaan &amp; Al-Qur'an</h3>
+        <p>Membangun kebiasaan Islami dan dekat dengan Al-Qur'an.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 PROGRAM ============ -->
+<section class="section program" id="program">
+  <div class="wrap">
+    <div class="prog-head">
+      <div>
+        <span class="tag">Program</span>
+        <h2 class="h2" style="margin-top:16px;max-width:12ch">Bukan sekadar belajar.</h2>
+      </div>
+      <p class="lead" style="max-width:34ch">Empat hal yang dijalani anak setiap hari di sini.</p>
+    </div>
+
+    <div class="prog-grid">
+      <article class="card feature">
+        <span class="k">P3Q</span>
+        <h3 class="h3">Pembiasaan Pagi Pemimpin Qurani</h3>
+        <p>Memulai hari dengan Al-Qur'an, ibadah, dan pembiasaan karakter.</p>
+      </article>
+
+      <article class="card">
+        <div class="media" data-asset="[ASET] Foto mentoring"></div>
+        <span class="k">Personal mentoring</span>
+        <h3 class="h3">Setiap anak punya perjalanan.</h3>
+        <p>Target, proses, dan perkembangan didampingi.</p>
+      </article>
+
+      <article class="card">
+        <div class="media" data-asset="[ASET] Foto suasana kelas"></div>
+        <span class="k">TKA &amp; akademik</span>
+        <h3 class="h3">Belajar dengan tujuan.</h3>
+        <p>Membangun kemampuan akademik dan kesiapan menghadapi masa depan.</p>
+      </article>
+
+      <article class="card" style="grid-column:span 2">
+        <div class="media" data-asset="[ASET] Foto ekstrakurikuler"></div>
+        <span class="k">Ekstrakurikuler</span>
+        <h3 class="h3">Berani mencoba. Berani berkembang.</h3>
+        <p>Menemukan potensi melalui pengalaman.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 EXPERIENCE ============ -->
+<section class="section exp on-dark" id="experience">
+  <div class="wrap exp-in">
+    <div class="exp-head">
+      <span class="tag">Pengalaman</span>
+      <h2 class="h2" style="margin-top:16px">Leadership is experienced.</h2>
+      <p class="lead" style="margin-top:22px;color:#C6D6EA">Bukan hanya belajar tentang kepemimpinan. Mereka mengalaminya.</p>
+    </div>
+
+    <div class="stage">
+      <!-- [ASET] Ganti blok ini dengan <video> atau embed YouTube kemah kepemimpinan -->
+      <button class="play" id="play" aria-label="Putar video kemah kepemimpinan">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+
+    <div class="words">
+      <b>Learn.</b><b>Explore.</b><b>Lead.</b>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 ALUMNI ============ -->
+<section class="section alumni" id="alumni">
+  <div class="wrap">
+    <div class="al-head">
+      <div>
+        <span class="tag">Alumni</span>
+        <h2 class="h2" style="margin-top:16px;max-width:12ch">Lihat mereka sekarang.</h2>
+      </div>
+      <p class="lead">Dulu, mereka adalah siswa kami. Hari ini, mereka melangkah lebih jauh.</p>
+    </div>
+
+    <div class="rail" id="rail">
+      <article class="al"><div class="face"></div><h4>Nama Alumni</h4><span>Sekolah / universitas / bidang</span></article>
+      <article class="al"><div class="face"></div><h4>Nama Alumni</h4><span>Sekolah / universitas / bidang</span></article>
+      <article class="al"><div class="face"></div><h4>Nama Alumni</h4><span>Sekolah / universitas / bidang</span></article>
+      <article class="al"><div class="face"></div><h4>Nama Alumni</h4><span>Sekolah / universitas / bidang</span></article>
+      <article class="al"><div class="face"></div><h4>Nama Alumni</h4><span>Sekolah / universitas / bidang</span></article>
+    </div>
+
+    <div class="al-close">
+      <p>Mungkin, perjalanan anak Anda juga dimulai di sini.</p>
+      <a class="btn btn-ghost" href="#spmb">Lihat info SPMB</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 SPMB ============ -->
+<section class="section spmb" id="spmb">
+  <div class="wrap">
+    <span class="tag">SPMB MTs Muhammadiyah Donorejo</span>
+    <h2 class="h2">Masa depan dimulai dari pilihan hari ini.</h2>
+    <p class="spmb-sub">Pilih tempat anak belajar. Pilih tempat mereka tumbuh. Pilih tempat mereka mulai belajar memimpin.</p>
+    <div class="spmb-cta">
+      <a class="btn btn-glow" href="#" id="daftar">Daftar SPMB</a>
+      <a class="btn btn-ghost-dark" href="#" id="kontak">Hubungi kami</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <a class="brand" href="#top">
+      <span class="mark">M</span>
+      <span class="brand-txt">
+        <span class="brand-name">MTs Muhammadiyah Donorejo</span>
+        <span class="brand-sub">Future Leaders School</span>
+      </span>
+    </a>
+    <span>[ASET] Alamat madrasah · WhatsApp · Instagram</span>
+  </div>
+</footer>
+
+<script>
+/* Hero entrance — satu momen, hanya saat halaman dibuka */
+requestAnimationFrame(function(){ document.body.classList.add('ready'); });
+
+/* Header berubah menjadi terang setelah melewati hero */
+var nav = document.getElementById('nav');
+var hero = document.getElementById('top');
+new IntersectionObserver(function(e){
+  nav.classList.toggle('solid', !e[0].isIntersecting);
+},{rootMargin:'-78px 0px 0px 0px'}).observe(hero);
+
+/* Tombol play — sambungkan ke video asli nanti */
+document.getElementById('play').addEventListener('click', function(){
+  alert('Sambungkan tombol ini ke video kemah kepemimpinan (file mp4 atau embed YouTube).');
+});
+
+/* Rail alumni bisa digeser dengan panah keyboard */
+var rail = document.getElementById('rail');
+rail.setAttribute('tabindex','0');
+rail.addEventListener('keydown', function(ev){
+  if(ev.key === 'ArrowRight'){ rail.scrollBy({left:300,behavior:'smooth'}); ev.preventDefault(); }
+  if(ev.key === 'ArrowLeft'){ rail.scrollBy({left:-300,behavior:'smooth'}); ev.preventDefault(); }
+});
+</script>
+</body>
+</html>
