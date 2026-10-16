@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tryout TKA — MTs Muhammadiyah Donorejo</title>
+<meta name="description" content="Daftar dan ikuti tryout TKA bersama MTs Muhammadiyah Donorejo.">
+<link rel="icon" type="image/png" href="../logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1628; --blue:#0B5FAD; --blue-deep:#084A88; --cyan:#22D3F5;
+  --paper:#F5F8FC; --line:#DCE5F0; --muted:#5A6B82; --danger:#B42318; --ok:#067647;
+  --font:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+  --gut:clamp(20px,5vw,64px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;font-family:var(--font);color:#fff;background:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.6;position:relative;overflow-x:hidden;
+}
+body::before{
+  content:"";position:absolute;inset:-20% -10% auto -10%;height:90%;pointer-events:none;
+  background:
+    radial-gradient(45% 55% at 82% 14%,rgba(34,211,245,.26),transparent 65%),
+    radial-gradient(50% 60% at 8% 46%,rgba(11,95,173,.5),transparent 68%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;border-radius:6px}
+
+.top{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:22px var(--gut);display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:42px;height:42px;object-fit:contain}
+.brand b{display:block;font-weight:800;font-size:.95rem;letter-spacing:-.02em;line-height:1.2}
+.brand small{display:block;font-size:.74rem;opacity:.7;font-weight:500}
+.back{font-size:.92rem;font-weight:600;color:#C6D6EA}
+.back:hover{color:#fff}
+
+main{
+  position:relative;z-index:2;max-width:1200px;margin:0 auto;
+  padding:clamp(20px,4vw,56px) var(--gut) 90px;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,6vw,84px);align-items:center;
+}
+.tag{display:inline-flex;align-items:center;gap:9px;font-size:.83rem;font-weight:600;color:#BFE9F8}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 4px rgba(34,211,245,.18)}
+h1{font-size:clamp(2.4rem,6.4vw,4.4rem);line-height:1;font-weight:800;letter-spacing:-.045em;margin:18px 0 0;max-width:12ch}
+.lead{margin:22px 0 0;max-width:42ch;color:#C6D6EA;font-size:clamp(1.02rem,1.5vw,1.2rem)}
+.steps{list-style:none;margin:34px 0 0;padding:0;display:grid;gap:14px;max-width:360px}
+.steps li{display:flex;align-items:center;gap:14px;font-weight:600;color:#E3ECF7}
+.steps span{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.9rem;font-weight:800;color:var(--ink);background:var(--cyan)}
+
+.card{background:#fff;color:var(--ink);border-radius:28px;padding:clamp(22px,3.4vw,38px);box-shadow:0 40px 80px -40px rgba(0,0,0,.7)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--paper);padding:6px;border-radius:999px;margin-bottom:26px}
+.tabs button{height:44px;border-radius:999px;font-weight:700;font-size:.95rem;color:var(--muted);transition:background .2s,color .2s}
+.tabs button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 4px 14px -6px rgba(10,22,40,.35)}
+.view{display:none}
+.view.on{display:block}
+h2{margin:0 0 6px;font-size:1.5rem;font-weight:800;letter-spacing:-.03em;line-height:1.15}
+.sub{margin:0 0 22px;color:var(--muted);font-size:.96rem}
+
+.field{margin-bottom:16px}
+label{display:block;font-size:.86rem;font-weight:700;margin-bottom:7px}
+input[type=text],input[type=password],input[type=tel],textarea{
+  width:100%;font:inherit;font-size:1rem;color:var(--ink);background:#fff;
+  border:1.5px solid var(--line);border-radius:14px;padding:0 16px;height:52px;transition:border-color .2s,box-shadow .2s;
+}
+textarea{height:auto;min-height:84px;padding:13px 16px;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(11,95,173,.14)}
+.check{display:flex;gap:12px;align-items:flex-start;margin:6px 0 20px;font-size:.88rem;color:var(--muted);line-height:1.5}
+.check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--blue)}
+.btn{display:inline-flex;align-items:center;justify-content:center;width:100%;height:56px;border-radius:999px;font-weight:700;font-size:1rem;background:var(--blue);color:#fff;box-shadow:0 10px 24px -10px rgba(11,95,173,.75);transition:transform .18s,background .2s}
+.btn:hover{background:var(--blue-deep);transform:translateY(-2px)}
+.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--ink);background:#fff}
+.btn.sm{height:44px;width:auto;padding:0 20px;font-size:.9rem}
+.msg{display:none;margin:0 0 16px;padding:12px 16px;border-radius:12px;font-size:.92rem;font-weight:600}
+.msg.show{display:block}
+.msg.err{background:#FEF3F2;color:var(--danger)}
+.msg.good{background:#ECFDF3;color:var(--ok)}
+.fine{margin:16px 0 0;font-size:.8rem;color:var(--muted);text-align:center}
+
+.cred{background:var(--paper);border:1.5px dashed #B9D4EC;border-radius:18px;padding:18px 20px;margin:0 0 14px}
+.cred small{display:block;font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.cred code{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.45rem;font-weight:700;letter-spacing:.02em;word-break:break-all;margin-top:2px}
+.warn{background:#FFFAEB;color:#93370D;border-radius:12px;padding:12px 16px;font-size:.88rem;font-weight:600;margin:0 0 18px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.info{display:grid;gap:12px;margin:18px 0 22px}
+.info div{background:var(--paper);border-radius:14px;padding:12px 16px}
+.info small{display:block;font-size:.76rem;font-weight:700;color:var(--muted)}
+.info b{font-weight:700}
+.soon{background:linear-gradient(140deg,var(--blue-deep),var(--ink));color:#fff;border-radius:18px;padding:20px;margin-bottom:18px}
+.soon b{display:block;font-size:1.05rem;letter-spacing:-.01em}
+.soon span{font-size:.9rem;color:#C6D6EA}
+
+.foot{position:relative;z-index:2;text-align:center;padding:0 var(--gut) 36px;color:#8FA8C4;font-size:.84rem}
+
+@media (max-width:900px){
+  main{grid-template-columns:1fr;gap:36px}
+  h1{max-width:none}
+  .steps{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="../">
+    <img src="../logo.png" alt="" onerror="this.style.display='none'">
+    <span><b>MTs Muhammadiyah Donorejo</b><small>Future Leaders School</small></span>
+  </a>
+  <a class="back" href="../">← Beranda</a>
+</header>
+
+<main>
+  <section>
+    <span class="tag">Tryout TKA</span>
+    <h1>Latihan hari ini. Percaya diri nanti.</h1>
+    <p class="lead">Daftar, dapatkan akun, lalu mulai berlatih TKA bersama MTs Muhammadiyah Donorejo.</p>
+    <ol class="steps">
+      <li><span>1</span>Daftar dengan data singkat</li>
+      <li><span>2</span>Simpan username dan password</li>
+      <li><span>3</span>Masuk dan mulai berlatih</li>
+    </ol>
+  </section>
+
+  <section class="card" id="card">
+    <div class="tabs" id="tabs" role="tablist">
+      <button type="button" role="tab" id="tab-daftar" aria-selected="true">Daftar</button>
+      <button type="button" role="tab" id="tab-masuk" aria-selected="false">Masuk</button>
+    </div>
+
+    <!-- DAFTAR -->
+    <div class="view on" id="v-daftar">
+      <h2>Buat akun tryout</h2>
+      <p class="sub">Isi data berikut. Username dan password dibuatkan otomatis.</p>
+      <form id="f-daftar" novalidate>
+        <div class="field"><label for="nama">Nama lengkap siswa</label><input type="text" id="nama" name="nama" autocomplete="name" required></div>
+        <div class="field"><label for="ortu">Nama orang tua / wali</label><input type="text" id="ortu" name="ortu" required></div>
+        <div class="field"><label for="hp">Nomor WhatsApp orang tua / wali</label><input type="tel" id="hp" name="hp" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx" required></div>
+        <div class="field"><label for="alamat">Alamat</label><textarea id="alamat" name="alamat" required></textarea></div>
+        <div class="field"><label for="sekolah">Nama sekolah asal</label><input type="text" id="sekolah" name="sekolah" required></div>
+        <label class="check" for="setuju">
+          <input type="checkbox" id="setuju" name="setuju">
+          <span>Saya (orang tua/wali) setuju data ini digunakan untuk tryout TKA dan untuk menghubungi saya melalui WhatsApp terkait informasi SPMB MTs Muhammadiyah Donorejo.</span>
+        </label>
+        <p class="msg err" id="m-daftar" role="alert"></p>
+        <button class="btn" type="submit" id="b-daftar">Daftar sekarang</button>
+        <p class="fine">Data hanya dapat dilihat oleh panitia madrasah.</p>
+      </form>
+    </div>
+
+    <!-- AKUN BARU -->
+    <div class="view" id="v-akun">
+      <h2>Akun Anda sudah jadi</h2>
+      <p class="sub">Catat atau salin data di bawah ini sekarang.</p>
+      <div class="cred"><small>USERNAME</small><code id="o-user"></code></div>
+      <div class="cred"><small>PASSWORD</small><code id="o-pass"></code></div>
+      <p class="warn">Password hanya ditampilkan sekali. Simpan sekarang. Jika hilang, hubungi panitia madrasah.</p>
+      <div class="row">
+        <button class="btn ghost sm" type="button" id="b-salin">Salin username &amp; password</button>
+      </div>
+      <button class="btn" type="button" id="b-lanjut">Saya sudah menyimpan, lanjut</button>
+    </div>
+
+    <!-- MASUK -->
+    <div class="view" id="v-masuk">
+      <h2>Masuk</h2>
+      <p class="sub">Gunakan username dan password dari pendaftaran.</p>
+      <form id="f-masuk" novalidate>
+        <div class="field"><label for="u">Username</label><input type="text" id="u" name="u" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+        <div class="field"><label for="p">Password</label><input type="password" id="p" name="p" autocomplete="current-password" required></div>
+        <p class="msg err" id="m-masuk" role="alert"></p>
+        <button class="btn" type="submit" id="b-masuk">Masuk</button>
+      </form>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="view" id="v-dash">
+      <h2 id="d-halo">Halo!</h2>
+      <p class="sub">Anda sudah masuk.</p>
+      <div class="soon"><b>Tryout belum dibuka</b><span>Jadwal dan soal akan diumumkan oleh panitia.</span></div>
+      <div class="info">
+        <div><small>NAMA</small><b id="d-nama"></b></div>
+        <div><small>SEKOLAH ASAL</small><b id="d-sekolah"></b></div>
+        <div><small>USERNAME</small><b id="d-user"></b></div>
+      </div>
+      <button class="btn ghost" type="button" id="b-keluar">Keluar</button>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">MTs Muhammadiyah Donorejo · Future Leaders School</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ===== PENGATURAN ===== */
+var SUPABASE_URL  = 'https://dzhutnlenarixajqzfds.supabase.co';
+var SUPABASE_KEY  = 'sb_publishable_ZfddwFJ9-b3X5heWN9LlkQ_Rnqnx5UZ'; /* key publishable: aman di halaman web */
+var EMAIL_DOMAIN  = 'tka.mtsmuhdonorejo.id'; /* username diubah jadi email palsu ini di belakang layar */
+
+var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+var $ = function(id){ return document.getElementById(id); };
+var akunBaru = { u:'', p:'' };
+
+/* ===== TAMPILAN ===== */
+function show(name){
+  ['daftar','akun','masuk','dash'].forEach(function(v){ $('v-'+v).classList.toggle('on', v===name); });
+  var tabs = (name==='daftar' || name==='masuk');
+  $('tabs').style.display = tabs ? '' : 'none';
+  $('tab-daftar').setAttribute('aria-selected', name==='daftar');
+  $('tab-masuk').setAttribute('aria-selected', name==='masuk');
+}
+function pesan(id, text){
+  var el = $(id);
+  el.textContent = text || '';
+  el.classList.toggle('show', !!text);
+}
+function sibuk(btn, on, label){
+  btn.disabled = on;
+  if(label) btn.textContent = label;
+}
+
+$('tab-daftar').onclick = function(){ show('daftar'); };
+$('tab-masuk').onclick  = function(){ show('masuk'); };
+
+/* ===== PEMBUAT USERNAME & PASSWORD ===== */
+function slug(n){
+  var w = n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').split(/\s+/)[0] || '';
+  w = w.replace(/[^a-z]/g,'').slice(0,10);
+  return w || 'peserta';
+}
+function buatUsername(n){ return slug(n) + String(Math.floor(Math.random()*9000)+1000); }
+var HURUF = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'; /* tanpa huruf mirip: 0 O 1 l I */
+function buatPassword(len){
+  var a = new Uint32Array(len || 8);
+  crypto.getRandomValues(a);
+  return Array.prototype.map.call(a, function(x){ return HURUF[x % HURUF.length]; }).join('');
+}
+function emailDari(u){ return u.trim().toLowerCase() + '@' + EMAIL_DOMAIN; }
+
+/* ===== DAFTAR ===== */
+$('f-daftar').addEventListener('submit', async function(e){
+  e.preventDefault();
+  pesan('m-daftar','');
+  var f = e.target;
+  var hp = f.hp.value.replace(/\D/g,'');            /* buang spasi, strip, tanda + */
+  if(hp.indexOf('0') === 0) hp = '62' + hp.slice(1); /* 0812... -> 62812... */
+  else if(hp.indexOf('8') === 0) hp = '62' + hp;     /* 812...  -> 62812... */
+  var d = {
+    nama: f.nama.value.trim(), ortu: f.ortu.value.trim(), hp: hp,
+    alamat: f.alamat.value.trim(), sekolah: f.sekolah.value.trim()
+  };
+  if(!d.nama || !d.ortu || !f.hp.value.trim() || !d.alamat || !d.sekolah){ pesan('m-daftar','Mohon isi semua kolom.'); return; }
+  if(!/^628\d{8,12}$/.test(d.hp)){ pesan('m-daftar','Nomor WhatsApp tidak valid. Contoh: 08123456789'); return; }
+  if(!f.setuju.checked){ pesan('m-daftar','Centang persetujuan untuk melanjutkan.'); return; }
+
+  var btn = $('b-daftar');
+  sibuk(btn, true, 'Memproses…');
+  try{
+    var password = buatPassword(8), username = '', user = null, session = null;
+
+    for(var i=0; i<6 && !user; i++){
+      username = buatUsername(d.nama);
+      var r = await sb.auth.signUp({ email: emailDari(username), password: password });
+      if(r.error){
+        var ada = r.error.code === 'user_already_exists' || /already|registered/i.test(r.error.message || '');
+        if(ada) continue;
+        throw r.error;
+      }
+      user = r.data.user; session = r.data.session;
+    }
+    if(!user) throw new Error('kode: username-penuh');
+    if(!session) throw new Error('kode: confirm-email');
+
+    var ins = await sb.from('peserta').insert({
+      id: user.id, username: username, nama: d.nama, nama_ortu: d.ortu,
+      alamat: d.alamat, nama_sekolah: d.sekolah, no_wa: d.hp, setuju_spmb: true
+    });
+    if(ins.error){ await sb.auth.signOut(); throw ins.error; }
+
+    akunBaru = { u: username, p: password };
+    $('o-user').textContent = username;
+    $('o-pass').textContent = password;
+    f.reset();
+    show('akun');
+  }catch(err){
+    console.error(err);
+    var m = String(err && err.message || '');
+    if(/kode:/.test(m)) pesan('m-daftar','Pendaftaran belum bisa diselesaikan ('+m+'). Hubungi panitia madrasah.');
+    else if(/rate|too many|limit/i.test(m)) pesan('m-daftar','Terlalu banyak percobaan. Coba lagi beberapa menit lagi.');
+    else if(/fetch|network/i.test(m)) pesan('m-daftar','Koneksi bermasalah. Periksa internet Anda lalu coba lagi.');
+    else pesan('m-daftar','Pendaftaran gagal. Coba lagi, atau hubungi panitia madrasah.');
+  }finally{
+    sibuk(btn, false, 'Daftar sekarang');
+  }
+});
+
+/* ===== SALIN AKUN ===== */
+$('b-salin').onclick = async function(){
+  var teks = 'Tryout TKA MTs Muhammadiyah Donorejo\nUsername: ' + akunBaru.u + '\nPassword: ' + akunBaru.p;
+  try{ await navigator.clipboard.writeText(teks); this.textContent = 'Tersalin ✓'; }
+  catch(e){ this.textContent = 'Salin manual dari layar'; }
+  var b = this; setTimeout(function(){ b.textContent = 'Salin username & password'; }, 2200);
+};
+$('b-lanjut').onclick = function(){ akunBaru = {u:'',p:''}; $('o-pass').textContent=''; muatDashboard(); };
+
+/* ===== MASUK ===== */
+$('f-masuk').addEventListener('submit', async function(e){
+  e.preventDefault();
+  pesan('m-masuk','');
+  var u = e.target.u.value.trim(), p = e.target.p.value;
+  if(!u || !p){ pesan('m-masuk','Isi username dan password.'); return; }
+  var btn = $('b-masuk');
+  sibuk(btn, true, 'Memeriksa…');
+  try{
+    var r = await sb.auth.signInWithPassword({ email: emailDari(u), password: p });
+    if(r.error) throw r.error;
+    e.target.reset();
+    await muatDashboard();
+  }catch(err){
+    console.error(err);
+    var m = String(err && err.message || '');
+    if(/invalid login/i.test(m)) pesan('m-masuk','Username atau password salah.');
+    else if(/not confirmed/i.test(m)) pesan('m-masuk','Akun belum aktif (kode: confirm-email). Hubungi panitia madrasah.');
+    else if(/rate|too many|limit/i.test(m)) pesan('m-masuk','Terlalu banyak percobaan. Coba lagi beberapa menit lagi.');
+    else pesan('m-masuk','Gagal masuk. Periksa koneksi lalu coba lagi.');
+  }finally{
+    sibuk(btn, false, 'Masuk');
+  }
+});
+
+/* ===== DASHBOARD ===== */
+async function muatDashboard(){
+  var s = await sb.auth.getUser();
+  if(!s.data || !s.data.user){ show('masuk'); return; }
+  var r = await sb.from('peserta').select('nama,nama_sekolah,username').eq('id', s.data.user.id).single();
+  if(r.error || !r.data){
+    await sb.auth.signOut();
+    show('masuk');
+    pesan('m-masuk','Data akun tidak ditemukan. Hubungi panitia madrasah.');
+    return;
+  }
+  var depan = (r.data.nama || '').split(' ')[0];
+  $('d-halo').textContent = 'Halo, ' + depan + '!';
+  $('d-nama').textContent = r.data.nama;
+  $('d-sekolah').textContent = r.data.nama_sekolah;
+  $('d-user').textContent = r.data.username;
+  show('dash');
+}
+$('b-keluar').onclick = async function(){ await sb.auth.signOut(); show('masuk'); };
+
+/* ===== AWAL ===== */
+(async function(){
+  var s = await sb.auth.getSession();
+  if(s.data && s.data.session) muatDashboard(); else show('daftar');
+})();
+</script>
+</body>
+</html>
