@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Tryout TKA — MTs Muhammadiyah Donorejo</title>
+<link rel="icon" type="image/png" href="../logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1628; --blue:#0B5FAD; --blue-deep:#084A88; --cyan:#22D3F5;
+  --paper:#F5F8FC; --line:#DCE5F0; --muted:#5A6B82; --green:#0E8A45;
+  --font:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+  --gut:clamp(16px,4vw,40px);
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;font-family:var(--font);background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;border-radius:10px}
+
+/* ---------- bar atas ---------- */
+.bar{position:sticky;top:0;z-index:30;background:var(--ink);color:#fff;padding-top:env(safe-area-inset-top)}
+.bar-in{max-width:1040px;margin:0 auto;height:62px;padding:0 var(--gut);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1rem}
+.brand img{width:34px;height:34px;object-fit:contain}
+.timer{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.13);font-weight:800;font-size:1.05rem;font-variant-numeric:tabular-nums;transition:background .3s,color .3s}
+.timer svg{width:18px;height:18px}
+.timer.warn{background:#FDB022;color:#1A1200}
+.timer.crit{background:#F04438;color:#fff}
+.prog{height:4px;background:rgba(255,255,255,.16)}
+.prog i{display:block;height:100%;width:0;background:#32D583;transition:width .3s}
+
+/* ---------- layar ---------- */
+.screen{display:none}
+.screen.on{display:block}
+.wrapc{max-width:560px;margin:0 auto;padding:clamp(24px,6vw,56px) var(--gut) 64px}
+.card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:clamp(22px,4.5vw,36px);box-shadow:0 24px 54px -38px rgba(10,22,40,.55)}
+.center{text-align:center}
+.tag{display:inline-flex;align-items:center;gap:9px;font-size:.83rem;font-weight:700;color:var(--blue)}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 4px rgba(34,211,245,.2)}
+h1{margin:14px 0 0;font-size:clamp(1.7rem,5vw,2.2rem);line-height:1.1;font-weight:800;letter-spacing:-.035em}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;border-radius:999px;font-weight:700;font-size:1rem;background:var(--blue);color:#fff;box-shadow:0 10px 24px -12px rgba(11,95,173,.8);transition:transform .18s,background .2s}
+.btn:hover{background:var(--blue-deep);transform:translateY(-2px)}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
+.btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--ink)}
+.stack{display:grid;gap:12px;margin-top:22px}
+.back{display:block;text-align:center;margin-top:16px;font-weight:600;color:var(--muted);font-size:.94rem}
+.msg{margin:16px 0 0;padding:12px 16px;border-radius:12px;background:#FEF3F2;color:#B42318;font-weight:600;font-size:.92rem}
+.spin{width:38px;height:38px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--blue);margin:6px auto 16px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* intro */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.chip{background:var(--paper);border-radius:999px;padding:6px 14px;font-size:.88rem;font-weight:600;color:var(--muted)}
+.chip b{color:var(--ink)}
+.rules{margin:22px 0 26px;padding:0;list-style:none;display:grid;gap:12px}
+.rules li{position:relative;padding-left:28px;color:var(--muted);font-size:.97rem}
+.rules li::before{content:"";position:absolute;left:0;top:.5em;width:12px;height:12px;border-radius:50%;background:var(--cyan)}
+
+/* ---------- layar soal ---------- */
+.test{max-width:1040px;margin:0 auto;padding:18px var(--gut) calc(116px + env(safe-area-inset-bottom));display:grid;gap:18px}
+.q{background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(18px,3.6vw,34px)}
+.q-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.86rem;font-weight:700;color:var(--muted);margin-bottom:14px}
+.save{font-weight:600;font-size:.8rem}
+.save.ok{color:var(--green)}
+.save.fail{color:#B42318}
+.q h2{margin:0 0 20px;font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.42;font-weight:700;letter-spacing:-.015em;white-space:pre-line}
+.q img{display:block;max-width:100%;max-height:340px;border-radius:14px;margin:0 0 20px}
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;min-height:62px;padding:12px 16px;border:1.5px solid var(--line);border-radius:16px;background:#fff;font-size:1.02rem;font-weight:500;line-height:1.4;transition:border-color .15s,background .15s}
+.opt:hover{border-color:#9DBEDD}
+.opt .l{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.95rem;background:var(--paper);color:var(--muted);transition:background .15s,color .15s}
+.opt.on{border-color:var(--blue);background:#EAF3FC}
+.opt.on .l{background:var(--blue);color:#fff}
+.clear{margin-top:14px;font-size:.88rem;font-weight:600;color:var(--muted);text-decoration:underline;padding:6px 0}
+.ctrl{display:none;gap:12px;justify-content:space-between;margin-top:18px}
+.ctrl .btn{width:auto;min-width:170px}
+
+/* daftar nomor */
+.aside{display:none;background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px}
+.aside h3,.sheet-h b{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:-.02em}
+.cnt{margin:4px 0 16px;color:var(--muted);font-size:.9rem;font-weight:600}
+.nav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.n{height:46px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-weight:800;font-size:.95rem;color:var(--muted)}
+.n.done{background:var(--green);border-color:var(--green);color:#fff}
+.n.cur{outline:3px solid var(--blue);outline-offset:2px}
+.legend{list-style:none;margin:18px 0 18px;padding:0;display:grid;gap:8px;font-size:.84rem;color:var(--muted);font-weight:600}
+.legend li{display:flex;align-items:center;gap:10px}
+.legend i{width:16px;height:16px;border-radius:5px;border:1.5px solid var(--line);flex:none}
+.legend .g{background:var(--green);border-color:var(--green)}
+.legend .c{outline:3px solid var(--blue);outline-offset:1px;border:1.5px solid var(--line)}
+
+/* bar bawah HP */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:56px 1fr 1.15fr;gap:10px}
+.dock button{height:54px;border-radius:15px;font-weight:800;font-size:1rem}
+.dock .prev{background:var(--paper);font-size:1.6rem;line-height:1}
+.dock .mid{background:var(--paper);border:1.5px solid var(--line)}
+.dock .next{background:var(--blue);color:#fff}
+.dock button:disabled{opacity:.4}
+.veil{position:fixed;inset:0;z-index:50;background:rgba(10,22,40,.55);display:none}
+.veil.on{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-radius:26px 26px 0 0;padding:18px 18px calc(20px + env(safe-area-inset-bottom));max-height:80vh;overflow:auto;transform:translateY(105%);transition:transform .25s ease}
+.sheet.on{transform:none}
+.sheet-h{display:flex;align-items:center;justify-content:space-between}
+.sheet-h .x{width:40px;height:40px;border-radius:50%;background:var(--paper);font-weight:800}
+
+/* konfirmasi */
+.modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(10,22,40,.6)}
+.modal.on{display:flex}
+.modal .box{background:#fff;border-radius:26px;padding:26px;max-width:420px;width:100%}
+.modal h3{margin:0 0 8px;font-size:1.3rem;font-weight:800;letter-spacing:-.025em}
+.modal p{margin:0 0 6px;color:var(--muted)}
+.modal .warnl{color:#B54708;font-weight:600}
+
+/* hasil */
+.score{margin:22px 0 4px;font-weight:800;letter-spacing:-.05em;line-height:1;color:var(--blue);display:flex;align-items:baseline;justify-content:center;gap:6px}
+.score span{font-size:clamp(5rem,22vw,7.5rem)}
+.score small{font-size:1.4rem;color:var(--muted);letter-spacing:0}
+.h-det{margin:6px 0 0;font-weight:700;font-size:1.1rem}
+.h-note{margin:8px 0 0;color:var(--muted)}
+
+@media (min-width:980px){
+  .test{grid-template-columns:1fr 320px;align-items:start;padding-bottom:60px;padding-top:28px}
+  .aside{display:block;position:sticky;top:92px}
+  .ctrl{display:flex}
+  .dock,.veil,.sheet{display:none!important}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="index.html"><img src="../logo.png" alt="" onerror="this.style.display='none'"><span>Tryout TKA</span></a>
+    <div class="timer" id="timer" role="timer" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>
+      <span id="timer-t">--:--</span>
+    </div>
+  </div>
+  <div class="prog" id="prog" hidden><i id="prog-i"></i></div>
+</header>
+
+<main>
+  <!-- MEMUAT / PESAN -->
+  <section class="screen on" id="s-load">
+    <div class="wrapc"><div class="card center">
+      <div class="spin" id="load-spin"></div>
+      <p id="load-msg" style="margin:0 0 4px;font-weight:600">Memuat…</p>
+      <div class="stack" style="margin-top:18px">
+        <button class="btn" id="load-retry" hidden>Coba lagi</button>
+        <a class="btn ghost" id="load-back" href="index.html" hidden>Kembali</a>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="screen" id="s-intro">
+    <div class="wrapc"><div class="card">
+      <span class="tag">Tryout TKA</span>
+      <h1 id="i-judul"></h1>
+      <div class="chips"><span class="chip">Durasi <b id="i-durasi"></b></span><span class="chip">Pilihan ganda</span></div>
+      <ul class="rules">
+        <li>Waktu mulai berjalan saat tombol Mulai ditekan.</li>
+        <li>Jawaban tersimpan otomatis. Jika halaman tertutup, masuk lagi untuk melanjutkan selama waktu masih ada.</li>
+        <li>Tryout hanya bisa dikerjakan satu kali.</li>
+      </ul>
+      <p class="msg" id="i-msg" role="alert" hidden></p>
+      <button class="btn" id="b-mulai" style="margin-top:18px">Mulai mengerjakan</button>
+      <a class="back" href="index.html">Kembali</a>
+    </div></div>
+  </section>
+
+  <!-- SOAL -->
+  <section class="screen" id="s-test">
+    <div class="test">
+      <div>
+        <article class="q">
+          <div class="q-meta"><span id="q-no"></span><span class="save" id="save" role="status"></span></div>
+          <h2 id="q-text"></h2>
+          <img id="q-img" alt="Gambar soal" hidden>
+          <div class="opts" id="opts" role="radiogroup" aria-label="Pilihan jawaban"></div>
+          <button type="button" class="clear" id="b-clear" hidden>Hapus pilihan</button>
+        </article>
+        <div class="ctrl">
+          <button class="btn ghost" id="c-prev" type="button">‹ Sebelumnya</button>
+          <button class="btn" id="c-next" type="button">Berikutnya ›</button>
+        </div>
+      </div>
+
+      <aside class="aside">
+        <h3>Daftar soal</h3>
+        <p class="cnt" id="cnt-d"></p>
+        <div class="nav-grid" id="nav-d"></div>
+        <ul class="legend"><li><i class="g"></i>Sudah dijawab</li><li><i class="c"></i>Soal ini</li><li><i></i>Belum dijawab</li></ul>
+        <button class="btn" id="a-finish" type="button">Kumpulkan jawaban</button>
+      </aside>
+
+      <div class="dock">
+        <button class="prev" id="k-prev" type="button" aria-label="Soal sebelumnya">‹</button>
+        <button class="mid" id="k-mid" type="button" aria-label="Buka daftar soal">Soal 1 / 1 ▴</button>
+        <button class="next" id="k-next" type="button">Berikutnya ›</button>
+      </div>
+      <div class="veil" id="veil"></div>
+      <div class="sheet" id="sheet" role="dialog" aria-label="Daftar soal">
+        <div class="sheet-h"><b>Daftar soal</b><button class="x" id="sheet-x" type="button" aria-label="Tutup">✕</button></div>
+        <p class="cnt" id="cnt-m"></p>
+        <div class="nav-grid" id="nav-m"></div>
+        <ul class="legend"><li><i class="g"></i>Sudah dijawab</li><li><i class="c"></i>Soal ini</li><li><i></i>Belum dijawab</li></ul>
+        <button class="btn" id="m-finish" type="button">Kumpulkan jawaban</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HASIL -->
+  <section class="screen" id="s-hasil">
+    <div class="wrapc"><div class="card center">
+      <span class="tag">Hasil tryout</span>
+      <div class="score"><span id="h-skor">0</span><small>/ 100</small></div>
+      <p class="h-det" id="h-det"></p>
+      <p class="h-note">Terima kasih sudah mengerjakan. Terus berlatih!</p>
+      <div class="stack">
+        <a class="btn" href="index.html">Kembali</a>
+        <a class="btn ghost" href="../">Kenali MTs Muhammadiyah Donorejo</a>
+      </div>
+    </div></div>
+  </section>
+</main>
+
+<!-- KONFIRMASI KUMPULKAN -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="cf-t">
+  <div class="box">
+    <h3 id="cf-t">Kumpulkan jawaban?</h3>
+    <p id="cf-info"></p>
+    <p class="warnl" id="cf-miss" hidden></p>
+    <div class="stack">
+      <button class="btn" id="cf-yes" type="button">Ya, kumpulkan</button>
+      <button class="btn ghost" id="cf-no" type="button">Periksa lagi</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var SUPABASE_URL = 'https://dzhutnlenarixajqzfds.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_ZfddwFJ9-b3X5heWN9LlkQ_Rnqnx5UZ';
+var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+var $ = function(id){ return document.getElementById(id); };
+
+var S = {
+  tryout:null, att:null, soal:[], jawab:{}, idx:0,
+  deadline:0, offset:0, tick:null,
+  ver:0, saving:false, saveTimer:null,
+  finishing:false, done:false, lastAuto:false
+};
+
+/* ---------- util ---------- */
+function pad(n){ return (n<10?'0':'') + n; }
+function now(){ return Date.now() + S.offset; }
+function sisa(){ return S.deadline - now(); }
+function kunciLS(){ return 'tka_jawab_' + (S.att ? S.att.id : ''); }
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+function row(d){ return Array.isArray(d) ? d[0] : d; }
+function angka(v){ var n = Number(v); return isFinite(n) ? String(+n.toFixed(2)) : '-'; }
+
+function show(name){
+  ['load','intro','test','hasil'].forEach(function(n){ $('s-'+n).classList.toggle('on', n===name); });
+  var t = (name === 'test');
+  $('timer').hidden = !t;
+  $('prog').hidden = !t;
+}
+function loadMsg(text, spin){
+  $('load-msg').textContent = text;
+  $('load-spin').hidden = !spin;
+  $('load-retry').hidden = true;
+  $('load-back').hidden = true;
+}
+function gagalMuat(text){ loadMsg(text, false); $('load-back').hidden = false; show('load'); }
+
+/* ---------- jam server ---------- */
+async function syncClock(){
+  try{
+    var t0 = Date.now();
+    var r = await sb.rpc('waktu_server');
+    var t1 = Date.now();
+    if(!r.error && r.data){ S.offset = new Date(r.data).getTime() - (t0 + t1) / 2; }
+  }catch(e){}
+}
+
+/* ---------- awal ---------- */
+async function init(){
+  var ses = await sb.auth.getSession();
+  if(!ses.data || !ses.data.session){ location.replace('index.html'); return; }
+
+  var id = new URLSearchParams(location.search).get('id');
+  var q = await sb.from('tryout').select('id,judul,durasi_menit').order('created_at');
+  if(q.error){ gagalMuat('Tryout belum bisa dimuat. Periksa koneksi lalu muat ulang halaman.'); return; }
+  var list = q.data || [];
+  S.tryout = id ? (list.filter(function(t){ return t.id === id; })[0] || null) : (list[0] || null);
+  if(!S.tryout){ gagalMuat('Tryout belum dibuka.'); return; }
+
+  await syncClock();
+
+  var a = await sb.from('percobaan').select('*').eq('tryout_id', S.tryout.id).maybeSingle();
+  if(a.error){ gagalMuat('Data belum bisa dimuat. Muat ulang halaman.'); return; }
+  S.att = a.data;
+
+  if(S.att && S.att.selesai_at){ tampilHasil(S.att); return; }
+  if(S.att){
+    var ok = await lanjut();
+    if(!ok) gagalMuat('Soal belum bisa dimuat. Muat ulang halaman.');
+    return;
+  }
+  $('i-judul').textContent = S.tryout.judul;
+  $('i-durasi').textContent = S.tryout.durasi_menit + ' menit';
+  show('intro');
+}
+
+$('b-mulai').onclick = async function(){
+  var b = this, m = $('i-msg');
+  m.hidden = true; b.disabled = true; b.textContent = 'Menyiapkan…';
+  var r = await sb.rpc('mulai_tryout', { p_tryout: S.tryout.id });
+  if(r.error){
+    m.textContent = /tidak aktif/i.test(r.error.message || '') ? 'Tryout belum dibuka.' : 'Belum bisa memulai. Periksa koneksi lalu coba lagi.';
+    m.hidden = false; b.disabled = false; b.textContent = 'Mulai mengerjakan'; return;
+  }
+  S.att = row(r.data);
+  var ok = await lanjut();
+  if(!ok){
+    m.textContent = 'Soal belum tersedia. Hubungi panitia madrasah.';
+    m.hidden = false; b.disabled = false; b.textContent = 'Mulai mengerjakan';
+  }
+};
+
+/* masuk ke layar soal (baru mulai maupun melanjutkan) */
+async function lanjut(){
+  S.deadline = new Date(S.att.mulai_at).getTime() + S.tryout.durasi_menit * 60000;
+  if(sisa() <= 0){ selesai(true); return true; }
+
+  var q = await sb.from('soal').select('id,nomor,pertanyaan,gambar,opsi').eq('tryout_id', S.tryout.id).order('nomor');
+  if(q.error || !q.data || !q.data.length) return false;
+  S.soal = q.data;
+
+  var lokal = {};
+  try{ lokal = JSON.parse(localStorage.getItem(kunciLS()) || '{}'); }catch(e){}
+  S.jawab = Object.assign({}, S.att.jawaban || {}, lokal);
+
+  S.idx = 0;
+  for(var i = 0; i < S.soal.length; i++){ if(!S.jawab[S.soal[i].id]){ S.idx = i; break; } }
+
+  show('test');
+  renderQuestion(); renderNav(); updateChrome(); setSave('');
+  startTick();
+  return true;
+}
+
+/* ---------- timer ---------- */
+function startTick(){ clearInterval(S.tick); tick(); S.tick = setInterval(tick, 1000); }
+function tick(){
+  if(S.done || S.finishing) return;
+  var s = sisa();
+  if(s <= 0){ clearInterval(S.tick); S.tick = null; $('timer-t').textContent = '00:00'; selesai(true); return; }
+  var t = Math.ceil(s / 1000), h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), d = t % 60;
+  $('timer-t').textContent = (h ? h + ':' + pad(m) : pad(m)) + ':' + pad(d);
+  var el = $('timer');
+  el.classList.toggle('warn', s <= 300000 && s > 60000);
+  el.classList.toggle('crit', s <= 60000);
+}
+document.addEventListener('visibilitychange', function(){ if(!document.hidden && S.tick) tick(); });
+
+/* ---------- tampilan soal ---------- */
+function renderQuestion(){
+  var s = S.soal[S.idx], N = S.soal.length;
+  $('q-no').textContent = 'Soal ' + (S.idx + 1) + ' dari ' + N;
+  $('q-text').textContent = s.pertanyaan;
+
+  var img = $('q-img');
+  if(s.gambar){
+    img.src = (/^(https?:)?\/\//.test(s.gambar) || s.gambar.charAt(0) === '/') ? s.gambar : '../' + s.gambar;
+    img.hidden = false;
+  }else{ img.hidden = true; img.removeAttribute('src'); }
+
+  var box = $('opts'); box.textContent = '';
+  Object.keys(s.opsi).sort().forEach(function(k){
+    var on = S.jawab[s.id] === k;
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt' + (on ? ' on' : ''); b.dataset.k = k;
+    b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', on);
+    var l = document.createElement('span'); l.className = 'l'; l.textContent = k;
+    var t = document.createElement('span'); t.textContent = s.opsi[k];
+    b.appendChild(l); b.appendChild(t);
+    b.onclick = function(){ pilih(k); };
+    box.appendChild(b);
+  });
+  $('b-clear').hidden = !S.jawab[s.id];
+}
+
+function fillNav(el){
+  el.textContent = '';
+  S.soal.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'n' + (S.jawab[s.id] ? ' done' : '') + (i === S.idx ? ' cur' : '');
+    b.textContent = i + 1;
+    b.setAttribute('aria-label', 'Soal ' + (i + 1) + (S.jawab[s.id] ? ', sudah dijawab' : ', belum dijawab'));
+    b.onclick = function(){ go(i); };
+    el.appendChild(b);
+  });
+}
+function renderNav(){ fillNav($('nav-d')); fillNav($('nav-m')); }
+
+function jumlahJawab(){
+  var c = 0; S.soal.forEach(function(s){ if(S.jawab[s.id]) c++; }); return c;
+}
+function updateChrome(){
+  var N = S.soal.length, a = jumlahJawab(), last = S.idx === N - 1;
+  $('prog-i').style.width = (N ? a / N * 100 : 0) + '%';
+  var txt = a + ' dari ' + N + ' soal terjawab';
+  $('cnt-d').textContent = txt; $('cnt-m').textContent = txt;
+  $('k-mid').textContent = 'Soal ' + (S.idx + 1) + ' / ' + N + ' ▴';
+  var nx = last ? 'Selesai' : 'Berikutnya ›';
+  $('c-next').textContent = nx; $('k-next').textContent = nx;
+  $('c-prev').disabled = $('k-prev').disabled = (S.idx === 0);
+}
+
+/* ---------- aksi ---------- */
+function go(i){
+  if(i < 0 || i >= S.soal.length) return;
+  S.idx = i;
+  renderQuestion(); renderNav(); updateChrome(); closeSheet();
+  window.scrollTo({ top: 0 });
+}
+function next(){ if(S.idx < S.soal.length - 1) go(S.idx + 1); else openConfirm(); }
+
+function berubah(){
+  S.ver++;
+  try{ localStorage.setItem(kunciLS(), JSON.stringify(S.jawab)); }catch(e){}
+  renderNav(); updateChrome();
+  var s = S.soal[S.idx];
+  $('b-clear').hidden = !S.jawab[s.id];
+  scheduleSave();
+}
+function pilih(k){
+  var s = S.soal[S.idx];
+  S.jawab[s.id] = k;
+  Array.prototype.forEach.call($('opts').children, function(b){
+    var on = b.dataset.k === k;
+    b.classList.toggle('on', on); b.setAttribute('aria-checked', on);
+  });
+  berubah();
+}
+$('b-clear').onclick = function(){
+  var s = S.soal[S.idx];
+  delete S.jawab[s.id];
+  Array.prototype.forEach.call($('opts').children, function(b){ b.classList.remove('on'); b.setAttribute('aria-checked', false); });
+  berubah();
+};
+
+/* ---------- simpan otomatis ---------- */
+function setSave(st){
+  var el = $('save');
+  el.className = 'save' + (st === 'ok' ? ' ok' : st === 'fail' ? ' fail' : '');
+  el.textContent = st === 'ok' ? 'Tersimpan ✓' : st === 'saving' ? 'Menyimpan…' : st === 'fail' ? 'Belum tersimpan, mencoba lagi…' : '';
+}
+function scheduleSave(){ setSave('saving'); clearTimeout(S.saveTimer); S.saveTimer = setTimeout(flush, 500); }
+async function flush(){
+  if(S.done || S.finishing) return;
+  if(S.saving){ S.saveTimer = setTimeout(flush, 400); return; }
+  var v = S.ver; S.saving = true;
+  var r = await sb.rpc('simpan_jawaban', { p_percobaan: S.att.id, p_jawaban: S.jawab });
+  S.saving = false;
+  if(r.error){
+    if(/waktu habis|sudah selesai/i.test(r.error.message || '')){ selesai(true); return; }
+    setSave('fail'); clearTimeout(S.saveTimer); S.saveTimer = setTimeout(flush, 4000); return;
+  }
+  if(S.ver !== v) scheduleSave(); else setSave('ok');
+}
+
+/* ---------- daftar nomor (HP) ---------- */
+function openSheet(){ $('veil').classList.add('on'); $('sheet').classList.add('on'); document.body.style.overflow = 'hidden'; }
+function closeSheet(){ $('veil').classList.remove('on'); $('sheet').classList.remove('on'); document.body.style.overflow = ''; }
+$('k-mid').onclick = openSheet;
+$('sheet-x').onclick = closeSheet;
+$('veil').onclick = closeSheet;
+
+/* ---------- konfirmasi & selesai ---------- */
+function openConfirm(){
+  closeSheet();
+  var N = S.soal.length, a = jumlahJawab(), kosong = [];
+  S.soal.forEach(function(s, i){ if(!S.jawab[s.id]) kosong.push(i + 1); });
+  $('cf-info').textContent = 'Terjawab ' + a + ' dari ' + N + ' soal.';
+  var m = $('cf-miss');
+  if(kosong.length){
+    m.textContent = 'Belum dijawab: nomor ' + kosong.slice(0, 15).join(', ') + (kosong.length > 15 ? ', …' : '');
+    m.hidden = false;
+  }else{ m.hidden = true; }
+  $('modal').classList.add('on');
+  $('cf-no').focus();
+}
+function closeConfirm(){ $('modal').classList.remove('on'); }
+$('cf-no').onclick = closeConfirm;
+$('cf-yes').onclick = function(){ selesai(false); };
+$('a-finish').onclick = openConfirm;
+$('m-finish').onclick = openConfirm;
+
+async function selesai(auto){
+  if(S.finishing || S.done) return;
+  S.finishing = true; S.lastAuto = auto;
+  clearInterval(S.tick); S.tick = null; clearTimeout(S.saveTimer);
+  closeConfirm(); closeSheet();
+  loadMsg(auto ? 'Waktu habis. Mengumpulkan jawaban…' : 'Mengumpulkan jawaban…', true);
+  show('load');
+
+  for(var i = 0; i < 6; i++){
+    var r = await sb.rpc('selesai_tryout', { p_percobaan: S.att.id, p_jawaban: S.jawab });
+    if(!r.error){
+      S.done = true;
+      try{ localStorage.removeItem(kunciLS()); }catch(e){}
+      tampilHasil(row(r.data));
+      return;
+    }
+    await wait(2000);
+  }
+  loadMsg('Belum berhasil mengumpulkan. Periksa koneksi lalu coba lagi. Jawaban tersimpan aman di perangkat ini.', false);
+  $('load-retry').hidden = false;
+  S.finishing = false;
+}
+$('load-retry').onclick = function(){ this.hidden = true; selesai(S.lastAuto); };
+
+/* ---------- hasil ---------- */
+function tampilHasil(r){
+  $('h-skor').textContent = (r && r.skor != null) ? angka(r.skor) : '-';
+  var det = '';
+  if(r && r.benar != null) det = 'Benar ' + r.benar + (r.total != null ? ' dari ' + r.total + ' soal' : ' soal');
+  $('h-det').textContent = det;
+  $('h-det').hidden = !det;
+  show('hasil');
+}
+
+/* ---------- navigasi tombol & keyboard ---------- */
+$('c-prev').onclick = $('k-prev').onclick = function(){ go(S.idx - 1); };
+$('c-next').onclick = $('k-next').onclick = next;
+
+document.addEventListener('keydown', function(e){
+  if(!$('s-test').classList.contains('on')) return;
+  if($('modal').classList.contains('on')){ if(e.key === 'Escape') closeConfirm(); return; }
+  if(e.key === 'Escape'){ closeSheet(); return; }
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
+  if(e.key === 'ArrowRight'){ if(S.idx < S.soal.length - 1) go(S.idx + 1); return; }
+  if(e.key === 'ArrowLeft'){ go(S.idx - 1); return; }
+  var k = e.key.length === 1 ? e.key.toUpperCase() : '';
+  var s = S.soal[S.idx];
+  if(k && s && s.opsi[k] !== undefined) pilih(k);
+});
+
+init();
+</script>
+</body>
+</html>
