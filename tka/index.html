@@ -97,6 +97,10 @@ input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 
 .soon b{display:block;font-size:1.05rem;letter-spacing:-.01em}
 .soon span{font-size:.9rem;color:#C6D6EA}
 
+.tk{background:var(--paper);border-radius:18px;padding:18px;margin-bottom:12px;display:grid;gap:14px}
+.tk b{display:block;font-size:1.05rem;letter-spacing:-.01em}
+.tk small{display:block;color:var(--muted);font-weight:600;margin-top:2px}
+
 .foot{position:relative;z-index:2;text-align:center;padding:0 var(--gut) 36px;color:#8FA8C4;font-size:.84rem}
 
 @media (max-width:900px){
@@ -184,7 +188,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 
     <div class="view" id="v-dash">
       <h2 id="d-halo">Halo!</h2>
       <p class="sub">Anda sudah masuk.</p>
-      <div class="soon"><b>Tryout belum dibuka</b><span>Jadwal dan soal akan diumumkan oleh panitia.</span></div>
+      <div id="d-tryout"></div>
       <div class="info">
         <div><small>NAMA</small><b id="d-nama"></b></div>
         <div><small>SEKOLAH ASAL</small><b id="d-sekolah"></b></div>
@@ -351,8 +355,47 @@ async function muatDashboard(){
   $('d-nama').textContent = r.data.nama;
   $('d-sekolah').textContent = r.data.nama_sekolah;
   $('d-user').textContent = r.data.username;
+  muatTryout();
   show('dash');
 }
+function el(tag, cls, text){
+  var e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(text !== undefined) e.textContent = text;
+  return e;
+}
+async function muatTryout(){
+  var box = $('d-tryout');
+  box.textContent = '';
+  var t = await sb.from('tryout').select('id,judul,durasi_menit').order('created_at');
+  if(t.error || !t.data || !t.data.length){
+    var s = el('div','soon');
+    s.appendChild(el('b','','Tryout belum dibuka'));
+    s.appendChild(el('span','','Jadwal dan soal akan diumumkan oleh panitia.'));
+    box.appendChild(s);
+    return;
+  }
+  var p = await sb.from('percobaan').select('tryout_id,selesai_at,skor');
+  var map = {};
+  (p.data || []).forEach(function(x){ map[x.tryout_id] = x; });
+  t.data.forEach(function(tr){
+    var a = map[tr.id];
+    var selesai = a && a.selesai_at;
+    var card = el('div','tk');
+    var info = el('div');
+    info.appendChild(el('b','',tr.judul));
+    var sub = tr.durasi_menit + ' menit';
+    if(selesai) sub += ' · skor ' + String(+Number(a.skor).toFixed(2));
+    else if(a) sub += ' · sedang berjalan';
+    info.appendChild(el('small','',sub));
+    var link = el('a', 'btn btn-sm' + (selesai ? ' ghost' : ''), selesai ? 'Lihat hasil' : a ? 'Lanjutkan' : 'Mulai tryout');
+    link.href = 'tryout.html?id=' + encodeURIComponent(tr.id);
+    card.appendChild(info);
+    card.appendChild(link);
+    box.appendChild(card);
+  });
+}
+
 $('b-keluar').onclick = async function(){ await sb.auth.signOut(); show('masuk'); };
 
 /* ===== AWAL ===== */
