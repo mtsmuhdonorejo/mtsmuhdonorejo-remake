@@ -212,10 +212,18 @@ footer.foot a{color:var(--cyan);text-decoration:underline;margin-left:8px}
     <!-- VIEW 2: KARTU AKUN SETELAH DAFTAR -->
     <div class="view" id="v-akun">
       <h2>Pendaftaran Berhasil! 🎉</h2>
-      <p class="sub">Simpan akun Anda di bawah ini untuk masuk dan mengerjakan ujian.</p>
+      <p class="sub">Simpan kartu peserta di bawah ini ke galeri HP Anda.</p>
 
-      <div class="cred-card">
-        <div class="cred-title">KARTU PESERTA TKA MTs DONOREJO</div>
+      <div class="cred-card" id="print-area">
+        <div class="cred-title">KARTU PESERTA TKA MTs DONOREJO 2026</div>
+        
+        <div style="margin-bottom:14px;border-bottom:1px solid #BFDBFE;padding-bottom:12px">
+          <small style="display:block;font-size:.76rem;font-weight:700;color:var(--muted)">NAMA SISWA</small>
+          <b id="o-nama" style="font-size:1.15rem;color:var(--ink)">-</b>
+          <small style="display:block;font-size:.76rem;font-weight:700;color:var(--muted);margin-top:6px">ASAL SEKOLAH</small>
+          <span id="o-sekolah" style="font-weight:700;color:#1E40AF">-</span>
+        </div>
+
         <div class="cred-row">
           <div class="cred-box">
             <small>USERNAME</small>
@@ -227,10 +235,11 @@ footer.foot a{color:var(--cyan);text-decoration:underline;margin-left:8px}
           </div>
         </div>
         <div class="cred-notice">
-          💡 <strong>Tips:</strong> Screenshot layar ini agar tidak lupa! Akun ini juga bisa digunakan untuk login kembali kapan saja.
+          💡 <strong>Penting:</strong> Klik tombol biru di bawah untuk menyimpan gambar kartu ke galeri HP agar tidak lupa!
         </div>
       </div>
 
+      <button type="button" class="btn" style="background:#0E8A45;margin-bottom:10px" id="b-unduh-kartu">📷 Unduh Kartu ke Galeri HP</button>
       <button type="button" class="btn" id="b-mulai-langsung">Masuk ke Ruang Ujian Sekarang →</button>
       <button type="button" class="btn ghost" style="margin-top:10px" id="b-salin-akun">📋 Salin Akun ke Clipboard</button>
     </div>
@@ -389,6 +398,8 @@ $('f-daftar').addEventListener('submit', async function(e){
 
     $('o-user').textContent = username;
     $('o-pass').textContent = password;
+    $('o-nama').textContent = d.nama;
+    $('o-sekolah').textContent = d.sekolah;
     showTab('akun');
   } catch(err) {
     console.error(err);
@@ -398,12 +409,105 @@ $('f-daftar').addEventListener('submit', async function(e){
   }
 });
 
+// Fitur Unduh Kartu ke Galeri HP (Canvas Native)
+$('b-unduh-kartu').onclick = function(){
+  var canvas = document.createElement('canvas');
+  canvas.width = 900;
+  canvas.height = 560;
+  var ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Border Luar
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = '#0B5FAD';
+  ctx.strokeRect(16, 16, canvas.width - 32, canvas.height - 32);
+
+  // Header Box Navy
+  ctx.fillStyle = '#0A1628';
+  ctx.fillRect(20, 20, canvas.width - 40, 110);
+
+  ctx.fillStyle = '#22D3F5';
+  ctx.font = 'bold 15px sans-serif';
+  ctx.fillText('TES KEMAMPUAN AKADEMIK (TKA) 2026/2027', 48, 55);
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '900 26px sans-serif';
+  ctx.fillText('MTs MUHAMMADIYAH DONOREJO', 48, 92);
+
+  ctx.fillStyle = '#9FB3CC';
+  ctx.font = '14px sans-serif';
+  ctx.fillText('Future Leaders School · www.mtsmdonorejo.sch.id', 48, 115);
+
+  // Badge Judul
+  ctx.fillStyle = '#EFF6FF';
+  ctx.fillRect(48, 150, canvas.width - 96, 40);
+  ctx.fillStyle = '#0B5FAD';
+  ctx.font = 'bold 15px sans-serif';
+  ctx.fillText('KARTU RESMI PESERTA UJIAN', 64, 175);
+
+  // Data Siswa
+  ctx.fillStyle = '#5A6B82';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('NAMA LENGKAP SISWA', 48, 225);
+  ctx.fillStyle = '#0A1628';
+  ctx.font = 'bold 22px sans-serif';
+  ctx.fillText(akunTersimpan.nama || '-', 48, 255);
+
+  ctx.fillStyle = '#5A6B82';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('ASAL SEKOLAH DASAR / MI', 48, 305);
+  ctx.fillStyle = '#0A1628';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.fillText(akunTersimpan.sekolah || '-', 48, 335);
+
+  // Kotak Username & Password
+  var wBox = (canvas.width - 116) / 2;
+  ctx.fillStyle = '#F4F8FC';
+  ctx.fillRect(48, 370, wBox, 100);
+  ctx.strokeStyle = '#93C5FD';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(48, 370, wBox, 100);
+
+  ctx.fillStyle = '#5A6B82';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('USERNAME', 68, 400);
+  ctx.fillStyle = '#0B5FAD';
+  ctx.font = 'bold 26px monospace';
+  ctx.fillText(akunTersimpan.u || '-', 68, 442);
+
+  var box2X = 48 + wBox + 20;
+  ctx.fillStyle = '#F4F8FC';
+  ctx.fillRect(box2X, 370, wBox, 100);
+  ctx.strokeRect(box2X, 370, wBox, 100);
+
+  ctx.fillStyle = '#5A6B82';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('PASSWORD', box2X + 20, 400);
+  ctx.fillStyle = '#0A1628';
+  ctx.font = 'bold 26px monospace';
+  ctx.fillText(akunTersimpan.p || '-', box2X + 20, 442);
+
+  // Footer Note
+  ctx.fillStyle = '#64748B';
+  ctx.font = 'italic 13px sans-serif';
+  ctx.fillText('* Simpan kartu ini di galeri HP. Gunakan username & password di atas untuk masuk ke ruang ujian.', 48, 510);
+
+  // Unduh File
+  var link = document.createElement('a');
+  link.download = 'Kartu-Peserta-TKA-' + (akunTersimpan.u || 'siswa') + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+};
+
 $('b-mulai-langsung').onclick = function(){
   window.location.href = 'tryout.html';
 };
 
 $('b-salin-akun').onclick = function(){
-  var teks = "Akun TKA MTs Muhammadiyah Donorejo\nUsername: " + akunTersimpan.u + "\nPassword: " + akunTersimpan.p;
+  var teks = "Akun TKA MTs Muhammadiyah Donorejo\nNama: " + akunTersimpan.nama + "\nUsername: " + akunTersimpan.u + "\nPassword: " + akunTersimpan.p;
   navigator.clipboard.writeText(teks).then(function(){
     alert('Akun berhasil disalin ke clipboard!');
   });
