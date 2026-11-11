@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin & Pengaturan Web — MTs Muhammadiyah Donorejo</title>
+<link rel="icon" type="image/png" href="../logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1628; --ink-2:#12243D; --blue:#0B5FAD; --blue-deep:#084A88; --cyan:#22D3F5;
+  --paper:#F4F8FC; --line:#DCE5F0; --muted:#5A6B82; --green:#0E8A45; --danger:#B42318;
+  --font:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+  --gut:clamp(16px,3.5vw,40px);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:var(--font);background:var(--paper);color:var(--ink);line-height:1.55}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+/* Header */
+.top{background:var(--ink);color:#fff;padding:16px var(--gut);display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:40}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:36px;height:36px;object-fit:contain}
+.brand b{display:block;font-size:1.02rem;letter-spacing:-.02em}
+.brand small{display:block;font-size:.74rem;opacity:.75}
+.top-actions{display:flex;align-items:center;gap:10px}
+.btn-top{padding:8px 16px;border-radius:999px;font-size:.84rem;font-weight:700;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;transition:.2s}
+.btn-top:hover{background:rgba(255,255,255,.2)}
+
+/* Layout Container */
+.container{max-width:1200px;margin:0 auto;padding:24px var(--gut) 80px}
+
+/* Auth PIN Screen */
+.auth-box{max-width:400px;margin:80px auto;background:#fff;border-radius:24px;padding:34px;text-align:center;box-shadow:0 24px 50px -25px rgba(10,22,40,.3);border:1px solid var(--line)}
+.auth-box h2{margin:12px 0 6px;font-size:1.45rem;font-weight:800}
+.pin-input{width:100%;height:52px;text-align:center;font-size:1.6rem;letter-spacing:.3em;font-family:monospace;border:2px solid var(--line);border-radius:14px;margin:18px 0;transition:.2s}
+.pin-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,95,173,.15)}
+
+/* Tabs Menu Utama Admin */
+.nav-tabs{display:flex;gap:8px;border-bottom:1.5px solid var(--line);margin-bottom:24px;overflow-x:auto;padding-bottom:2px}
+.nav-tab{padding:12px 20px;border-radius:12px 12px 0 0;font-weight:700;font-size:.95rem;color:var(--muted);transition:.2s;white-space:nowrap}
+.nav-tab.active{color:var(--blue);border-bottom:3px solid var(--blue);background:rgba(11,95,173,.05)}
+
+/* Tab Content */
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* KPI Cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:26px}
+.kpi-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 4px 14px -6px rgba(10,22,40,.08)}
+.kpi-card small{display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.02em}
+.kpi-card .val{font-size:2.2rem;font-weight:900;color:var(--blue);line-height:1.1;margin-top:6px}
+.kpi-card .sub{font-size:.82rem;color:var(--muted);margin-top:6px}
+
+/* Grid Dua Kolom */
+.mid-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:26px}
+@media (max-width:860px){
+  .mid-grid{grid-template-columns:1fr;}
+}
+
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 4px 14px -6px rgba(10,22,40,.06)}
+.panel-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.panel-h h3{margin:0;font-size:1.15rem;font-weight:800}
+
+/* Form Styles */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.84rem;font-weight:700;margin-bottom:6px;color:#203048}
+.field input, .field select, .field textarea{width:100%;height:46px;border:1.5px solid var(--line);border-radius:12px;padding:0 14px;font:inherit;font-size:.92rem;transition:.2s}
+.field textarea{height:auto;min-height:84px;padding:12px 14px;resize:vertical}
+.field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,95,173,.12)}
+
+/* Tabel Peserta */
+.table-panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}
+.table-ctrl{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.search-inp{height:42px;border:1.5px solid var(--line);border-radius:10px;padding:0 14px;font:inherit;font-size:.9rem;min-width:260px}
+.table-wrap{overflow-x:auto}
+table.data-table{width:100%;border-collapse:collapse;font-size:.88rem;text-align:left}
+table.data-table th{background:var(--paper);padding:10px 12px;color:var(--muted);font-weight:700;border-bottom:1.5px solid var(--line);white-space:nowrap}
+table.data-table td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.data-table tr:hover td{background:#F8FAFC}
+
+.btn-wa{display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;font-weight:700;font-size:.8rem;padding:6px 12px;border-radius:999px;transition:.2s}
+.btn-wa:hover{background:#1EBE5D}
+
+.badge-status{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.76rem;font-weight:800}
+.badge-done{background:#ECFDF3;color:var(--green);border:1px solid #A6F4C5}
+.badge-wait{background:#FFF6ED;color:#C4320A;border:1px solid #FEDF89}
+
+.btn-primary{background:var(--blue);color:#fff;height:48px;border-radius:999px;font-weight:700;font-size:.94rem;padding:0 24px;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+.btn-primary:hover{background:var(--blue-deep)}
+.btn-primary:disabled{opacity:.6;cursor:wait}
+
+/* Sebaran Sekolah List */
+.school-list{display:grid;gap:10px;max-height:300px;overflow-y:auto}
+.school-item{display:flex;align-items:center;justify-content:space-between;background:var(--paper);padding:10px 14px;border-radius:12px;font-size:.88rem;font-weight:600}
+.school-badge{background:var(--blue);color:#fff;padding:3px 10px;border-radius:999px;font-size:.8rem;font-weight:800}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <img src="../logo.png" alt="Logo" onerror="this.style.display='none'">
+    <div>
+      <b>Admin Madrasah & Kepala Sekolah</b>
+      <small>MTs Muhammadiyah Donorejo · Panel Kendali</small>
+    </div>
+  </div>
+  <div class="top-actions">
+    <a href="../" class="btn-top">🌐 Lihat Web Utama</a>
+    <a href="../tka/" class="btn-top">📝 Halaman TKA</a>
+    <a href="https://docs.google.com/spreadsheets/d/1EcYCWybW8tyBqiZRf71MY-qcCyhT2eJ3JXlyuD7vzO8/edit?usp=sharing" target="_blank" class="btn-top" style="background:#0F9D58;border-color:#0F9D58">📊 Google Sheets</a>
+  </div>
+</header>
+
+<!-- SCREEN 1: LOGIN PIN -->
+<div id="v-auth" class="auth-box">
+  <div style="font-size:2.5rem">🔐</div>
+  <h2>Masuk Panel Admin</h2>
+  <p style="color:var(--muted);font-size:.88rem;margin:0">Masukkan PIN Keamanan untuk membuka akses pengaturan website dan data ujian.</p>
+  <form id="f-pin">
+    <input type="password" id="pin" class="pin-input" maxlength="6" placeholder="••••" required autofocus>
+    <button type="submit" class="btn-primary" style="width:100%" id="b-login">Buka Panel Admin</button>
+  </form>
+  <p style="color:var(--muted);font-size:.78rem;margin-top:14px">PIN Default: <code>1912</code></p>
+</div>
+
+<!-- SCREEN 2: DASHBOARD UTAMA -->
+<div id="v-dash" class="container" style="display:none">
+  <!-- Navigasi Tab Admin -->
+  <div class="nav-tabs">
+    <button type="button" class="nav-tab active" onclick="switchAdminTab('tka')">📝 Ujian TKA & Siswa</button>
+    <button type="button" class="nav-tab" onclick="switchAdminTab('web')">🌐 Pengaturan Website & SPMB</button>
+    <button type="button" class="nav-tab" onclick="switchAdminTab('sekolah')">🏫 Analisis Asal SD/MI</button>
+  </div>
+
+  <!-- TAB 1: UJIAN TKA & DATA SISWA -->
+  <div id="pane-tka" class="tab-pane active">
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <small>Total Calon Siswa</small>
+        <div class="val" id="kpi-pendaftar">0</div>
+        <div class="sub">Terdaftar di sistem TKA</div>
+      </div>
+      <div class="kpi-card">
+        <small>Sudah Mengerjakan</small>
+        <div class="val" id="kpi-selesai" style="color:var(--green)">0</div>
+        <div class="sub" id="kpi-persen">0% dari total pendaftar</div>
+      </div>
+      <div class="kpi-card">
+        <small>Rata-rata Skor</small>
+        <div class="val" id="kpi-skor" style="color:#D97706">0</div>
+        <div class="sub">Skala 0 - 100</div>
+      </div>
+      <div class="kpi-card">
+        <small>SD/MI Terlibat</small>
+        <div class="val" id="kpi-sekolah">0</div>
+        <div class="sub">Asal sekolah calon siswa</div>
+      </div>
+    </div>
+
+    <!-- PENGATURAN TRYOUT -->
+    <div class="panel" style="margin-bottom:24px">
+      <div class="panel-h">
+        <h3>⏱️ Pengaturan Ujian Tryout TKA</h3>
+        <span id="badge-status-tryout" class="badge-status badge-done">AKTIF</span>
+      </div>
+      <form id="f-setting-tryout">
+        <div class="mid-grid">
+          <div>
+            <div class="field">
+              <label>Status Tryout Siswa</label>
+              <select id="set-aktif">
+                <option value="true">Buka Tryout (Bisa Dikerjakan Siswa)</option>
+                <option value="false">Tutup Tryout (Tidak Bisa Dikerjakan)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Durasi Pengerjaan Ujian (Menit)</label>
+              <input type="number" id="set-durasi" min="10" max="300" value="120">
+            </div>
+          </div>
+          <div>
+            <div class="field">
+              <label>Jadwal Buka Ujian</label>
+              <input type="datetime-local" id="set-buka">
+            </div>
+            <div class="field">
+              <label>Jadwal Tutup Ujian</label>
+              <input type="datetime-local" id="set-tutup">
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="b-simpan-tryout">Simpan Pengaturan Tryout</button>
+      </form>
+    </div>
+
+    <!-- TABEL PESERTA & HASIL -->
+    <div class="table-panel">
+      <div class="table-ctrl">
+        <div>
+          <h3 style="margin:0 0 4px">📋 Rekap Peserta & Hasil Ujian</h3>
+          <p style="margin:0;font-size:.85rem;color:var(--muted)">Hubungi langsung wali murid untuk undangan resmi pendaftaran SPMB.</p>
+        </div>
+        <input type="text" id="filter-search" class="search-inp" placeholder="Cari nama siswa atau sekolah…">
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Siswa</th>
+              <th>Asal SD / MI</th>
+              <th>Nama Wali</th>
+              <th>Akun (U / P)</th>
+              <th>Status</th>
+              <th>Skor</th>
+              <th>Aksi Cepat</th>
+            </tr>
+          </thead>
+          <tbody id="peserta-tbody">
+            <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">Memuat data peserta…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: PENGATURAN WEBSITE & SPMB -->
+  <div id="pane-web" class="tab-pane">
+    <div class="mid-grid">
+      <!-- Pengaturan Kontak & SPMB -->
+      <div class="panel">
+        <div class="panel-h">
+          <h3>💬 Kontak Panitia & Status SPMB</h3>
+        </div>
+        <form id="f-setting-web">
+          <div class="field">
+            <label>Nomor WhatsApp Panitia SPMB</label>
+            <input type="tel" id="web-wa" placeholder="Contoh: 6288232078761">
+            <small style="color:var(--muted);font-size:.76rem">Gunakan awalan 62 (tanpa tanda + atau spasi)</small>
+          </div>
+          <div class="field">
+            <label>Status Pendaftaran SPMB</label>
+            <select id="web-status-spmb">
+              <option value="BUKA">Pendaftaran SPMB DIBUKA</option>
+              <option value="TUTUP">Pendaftaran SPMB DITUTUP</option>
+              <option value="SEGERA">Segera Dibuka</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Pesan Default Pembuka WhatsApp</label>
+            <textarea id="web-pesan-wa" placeholder="Pesan otomatis ketika calon wali murid mengklik tombol kontak"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" id="b-simpan-web">Simpan Pengaturan Web</button>
+        </form>
+      </div>
+
+      <!-- Pengumuman Banner di Web Utama -->
+      <div class="panel">
+        <div class="panel-h">
+          <h3>📢 Banner Pengumuman di Web Utama</h3>
+        </div>
+        <form id="f-setting-banner">
+          <div class="field">
+            <label>Tampilkan Banner Pengumuman?</label>
+            <select id="banner-aktif">
+              <option value="true">Tampilkan di Bagian Atas Web</option>
+              <option value="false">Sembunyikan</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Teks Pengumuman</label>
+            <textarea id="banner-teks" placeholder="Contoh: Pendaftaran Peserta Didik Baru (SPMB) Gelombang 1 Telah Dibuka! Ikuti Tryout TKA Online Berhadiah Beasiswa."></textarea>
+          </div>
+          <div class="field">
+            <label>Link Tujuan Banner (Opsional)</label>
+            <input type="text" id="banner-link" placeholder="Contoh: tka/ atau link pendaftaran">
+          </div>
+          <button type="submit" class="btn-primary" id="b-simpan-banner">Simpan Banner Pengumuman</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: SEBARAN ASAL SD / MI -->
+  <div id="pane-sekolah" class="tab-pane">
+    <div class="panel">
+      <div class="panel-h">
+        <div>
+          <h3>🏫 Analisis Sebaran SD / MI Asal Calon Siswa</h3>
+          <p style="margin:4px 0 0;font-size:.85rem;color:var(--muted)">Prioritas kunjungan sosialisasi & promosi Kepala Sekolah ke sekolah dasar sekitar.</p>
+        </div>
+      </div>
+      <div class="school-list" id="school-list">
+        <div style="text-align:center;padding:30px;color:var(--muted)">Memuat data asal sekolah…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../tka/config.js"></script>
+<script>
+var $ = function(id){ return document.getElementById(id); };
+var ADMIN_STATE = { pin: '', data: null };
+
+function switchAdminTab(name){
+  ['tka','web','sekolah'].forEach(function(t, idx){
+    $('pane-' + t).classList.toggle('active', t === name);
+    document.querySelectorAll('.nav-tab')[idx].classList.toggle('active', t === name);
+  });
+}
+
+// LOGIN PIN
+$('f-pin').onsubmit = function(e){
+  e.preventDefault();
+  var pin = $('pin').value.trim();
+  if(pin !== TKA_CONFIG.ADMIN_PIN){
+    alert('PIN salah! Silakan coba lagi.');
+    return;
+  }
+  ADMIN_STATE.pin = pin;
+  $('v-auth').style.display = 'none';
+  $('v-dash').style.display = 'block';
+  muatDataAdmin();
+};
+
+async function muatDataAdmin(){
+  try {
+    var resp = await fetch(TKA_CONFIG.GAS_URL + '?action=get_admin_data&pin=' + encodeURIComponent(ADMIN_STATE.pin));
+    var res = await resp.json();
+    if(!res.ok){ throw new Error(res.msg); }
+
+    ADMIN_STATE.data = res.data;
+    renderDashboard(res.data);
+  } catch(err) {
+    alert('Gagal mengambil data dari Google Sheets: ' + err.message);
+  }
+}
+
+function renderDashboard(data){
+  // KPI
+  $('kpi-pendaftar').textContent = data.kpi.total_pendaftar;
+  $('kpi-selesai').textContent = data.kpi.total_mengerjakan;
+  $('kpi-skor').textContent = data.kpi.rata_rata_skor;
+  $('kpi-sekolah').textContent = data.kpi.total_sekolah;
+
+  var pct = data.kpi.total_pendaftar > 0 ? Math.round((data.kpi.total_mengerjakan / data.kpi.total_pendaftar) * 100) : 0;
+  $('kpi-persen').textContent = pct + '% dari total pendaftar';
+
+  // Setting Tryout
+  var t = data.tryout;
+  $('set-aktif').value = String(t.aktif);
+  $('set-durasi').value = t.durasi_menit;
+  if(t.waktu_buka) $('set-buka').value = formatDateTimeInput(t.waktu_buka);
+  if(t.waktu_tutup) $('set-tutup').value = formatDateTimeInput(t.waktu_tutup);
+
+  var badge = $('badge-status-tryout');
+  badge.textContent = t.aktif ? 'AKTIF' : 'NONAKTIF';
+  badge.className = 'badge-status ' + (t.aktif ? 'badge-done' : 'badge-wait');
+
+  // Setting Web
+  var w = data.pengaturan_web || {};
+  $('web-wa').value = w.kontak_wa || '6288232078761';
+  $('web-status-spmb').value = w.spmb_status || 'BUKA';
+  $('web-pesan-wa').value = w.pesan_wa || 'Assalamualaikum, saya ingin bertanya tentang SPMB MTs Muhammadiyah Donorejo';
+  $('banner-aktif').value = String(w.pengumuman_aktif !== false);
+  $('banner-teks').value = w.pengumuman_teks || 'Penerimaan Peserta Didik Baru (SPMB) Telah Dibuka! Ikuti Tryout TKA Online Berhadiah Beasiswa.';
+  $('banner-link').value = w.pengumuman_link || 'tka/';
+
+  // Sebaran Sekolah
+  var slist = $('school-list');
+  slist.innerHTML = '';
+  var sortedSekolah = Object.entries(data.sebaran_sekolah || {}).sort(function(a,b){ return b[1] - a[1]; });
+
+  if(sortedSekolah.length === 0){
+    slist.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted)">Belum ada data sekolah.</div>';
+  } else {
+    sortedSekolah.forEach(function(item){
+      var div = document.createElement('div');
+      div.className = 'school-item';
+      div.innerHTML = '<span>' + item[0] + '</span><span class="school-badge">' + item[1] + ' Calon Siswa</span>';
+      slist.appendChild(div);
+    });
+  }
+
+  // Tabel Peserta
+  renderTabelPeserta(data.peserta);
+}
+
+function renderTabelPeserta(pesertaList){
+  var tbody = $('peserta-tbody');
+  tbody.innerHTML = '';
+  var q = $('filter-search').value.toLowerCase().trim();
+
+  var filtered = (pesertaList || []).filter(function(p){
+    if(!q) return true;
+    return (p.nama && p.nama.toLowerCase().includes(q)) ||
+           (p.nama_sekolah && p.nama_sekolah.toLowerCase().includes(q));
+  });
+
+  if(filtered.length === 0){
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">Tidak ada data peserta yang cocok.</td></tr>';
+    return;
+  }
+
+  filtered.forEach(function(p, idx){
+    var att = p.hasil;
+    var statusBadge = (att && att.selesai_at) ? '<span class="badge-status badge-done">Selesai</span>' : '<span class="badge-status badge-wait">Belum</span>';
+    var skorTxt = (att && att.selesai_at) ? '<b style="color:var(--blue);font-size:1.05rem">' + att.skor + '</b>' : '-';
+
+    var pesanWA = "Assalamu'alaikum Wr. Wb. Bapak/Ibu *" + p.nama_ortu + "*,\n\n" +
+      "Kami dari Panitia SPMB MTs Muhammadiyah Donorejo menginformasikan hasil Tes Kemampuan Akademik (TKA) ananda *" + p.nama + "* (Asal: " + p.nama_sekolah + "):\n\n" +
+      "• Skor Akhir: *" + (att && att.selesai_at ? att.skor : 'Belum selesai') + "*\n\n" +
+      "Terima kasih atas partisipasinya. Kami mengundang ananda untuk melanjutkan proses pendaftaran di MTs Muhammadiyah Donorejo (Future Leaders School).\n\n" +
+      "Info pendaftaran dapat dilihat di: https://www.mtsmdonorejo.sch.id";
+
+    var linkWA = 'https://wa.me/' + p.no_wa + '?text=' + encodeURIComponent(pesanWA);
+
+    var tr = document.createElement('tr');
+    tr.innerHTML = 
+      '<td>' + (idx + 1) + '</td>' +
+      '<td><b>' + p.nama + '</b></td>' +
+      '<td>' + p.nama_sekolah + '</td>' +
+      '<td>' + p.nama_ortu + '</td>' +
+      '<td><code>' + p.username + ' / ' + p.password + '</code></td>' +
+      '<td>' + statusBadge + '</td>' +
+      '<td>' + skorTxt + '</td>' +
+      '<td><a href="' + linkWA + '" target="_blank" class="btn-wa">💬 Chat Ortu</a></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+$('filter-search').oninput = function(){
+  if(ADMIN_STATE.data) renderTabelPeserta(ADMIN_STATE.data.peserta);
+};
+
+// SIMPAN PENGATURAN TRYOUT
+$('f-setting-tryout').onsubmit = async function(e){
+  e.preventDefault();
+  var btn = $('b-simpan-tryout');
+  btn.disabled = true; btn.textContent = 'Menyimpan…';
+
+  try {
+    var payload = {
+      action: 'admin_toggle_tryout',
+      pin: ADMIN_STATE.pin,
+      aktif: $('set-aktif').value === 'true',
+      durasi_menit: $('set-durasi').value,
+      waktu_buka: $('set-buka').value,
+      waktu_tutup: $('set-tutup').value
+    };
+
+    var resp = await fetch(TKA_CONFIG.GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    var res = await resp.json();
+    if(!res.ok){ throw new Error(res.msg); }
+
+    alert('Pengaturan tryout berhasil disimpan!');
+    muatDataAdmin();
+  } catch(err) {
+    alert('Gagal menyimpan: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Simpan Pengaturan Tryout';
+  }
+};
+
+// SIMPAN PENGATURAN WEB (WA & SPMB)
+$('f-setting-web').onsubmit = async function(e){
+  e.preventDefault();
+  var btn = $('b-simpan-web');
+  btn.disabled = true; btn.textContent = 'Menyimpan…';
+
+  try {
+    var payload = {
+      action: 'admin_simpan_web',
+      pin: ADMIN_STATE.pin,
+      kontak_wa: $('web-wa').value.trim(),
+      spmb_status: $('web-status-spmb').value,
+      pesan_wa: $('web-pesan-wa').value.trim()
+    };
+
+    var resp = await fetch(TKA_CONFIG.GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    var res = await resp.json();
+    if(!res.ok){ throw new Error(res.msg); }
+
+    alert('Pengaturan web dan kontak WA berhasil disimpan!');
+    muatDataAdmin();
+  } catch(err) {
+    alert('Gagal menyimpan: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Simpan Pengaturan Web';
+  }
+};
+
+// SIMPAN PENGATURAN BANNER
+$('f-setting-banner').onsubmit = async function(e){
+  e.preventDefault();
+  var btn = $('b-simpan-banner');
+  btn.disabled = true; btn.textContent = 'Menyimpan…';
+
+  try {
+    var payload = {
+      action: 'admin_simpan_banner',
+      pin: ADMIN_STATE.pin,
+      pengumuman_aktif: $('banner-aktif').value === 'true',
+      pengumuman_teks: $('banner-teks').value.trim(),
+      pengumuman_link: $('banner-link').value.trim()
+    };
+
+    var resp = await fetch(TKA_CONFIG.GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    var res = await resp.json();
+    if(!res.ok){ throw new Error(res.msg); }
+
+    alert('Pengaturan banner pengumuman berhasil disimpan!');
+    muatDataAdmin();
+  } catch(err) {
+    alert('Gagal menyimpan: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Simpan Banner Pengumuman';
+  }
+};
+
+function formatDateTimeInput(dateStr){
+  try {
+    var d = new Date(dateStr);
+    if(isNaN(d.getTime())) return '';
+    return d.toISOString().slice(0,16);
+  } catch(e){ return ''; }
+}
+</script>
+</body>
+</html>

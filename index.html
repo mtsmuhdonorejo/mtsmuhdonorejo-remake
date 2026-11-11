@@ -389,6 +389,12 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 </head>
 <body>
 
+<!-- Banner Pengumuman Dinamis -->
+<div id="top-announcement" style="display:none;background:linear-gradient(90deg,#084A88,#0B5FAD);color:#fff;padding:9px 16px;text-align:center;font-size:0.86rem;font-weight:600;position:relative;z-index:90">
+  <span id="ann-text"></span>
+  <a id="ann-link" href="tka/" style="color:#22D3F5;margin-left:8px;text-decoration:underline">Buka TKA →</a>
+</div>
+
 <!-- ============ HEADER ============ -->
 <header class="nav" id="nav">
   <div class="wrap nav-in">
@@ -406,8 +412,9 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
       <a href="#program">Program</a>
       <a href="#experience">Pengalaman</a>
       <a href="#alumni">Alumni</a>
+      <a href="tka/" style="color:var(--cyan);font-weight:700">Tryout TKA ✨</a>
     </nav>
-    <a class="btn btn-glow btn-sm" href="#spmb">Daftar SPMB</a>
+    <a class="btn btn-glow btn-sm" href="tka/">Daftar TKA / SPMB</a>
   </div>
 </header>
 
@@ -624,10 +631,14 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
         <span class="brand-sub">Future Leaders School</span>
       </span>
     </a>
-    <span>[ASET] Alamat madrasah · WhatsApp · Instagram</span>
+    <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+      <span>Future Leaders School · Donorejo</span>
+      <a href="admin/" style="color:#9FB3CC;font-size:0.82rem;text-decoration:underline">Portal Admin 🔒</a>
+    </div>
   </div>
 </footer>
 
+<script src="tka/config.js"></script>
 <script>
 /* Hero entrance — satu momen, hanya saat halaman dibuka */
 requestAnimationFrame(function(){ document.body.classList.add('ready'); });
@@ -639,7 +650,6 @@ new IntersectionObserver(function(e){
   nav.classList.toggle('solid', !e[0].isIntersecting);
 },{rootMargin:'-78px 0px 0px 0px'}).observe(hero);
 
-
 /* Rail alumni bisa digeser dengan panah keyboard */
 var rail = document.getElementById('rail');
 rail.setAttribute('tabindex','0');
@@ -647,6 +657,30 @@ rail.addEventListener('keydown', function(ev){
   if(ev.key === 'ArrowRight'){ rail.scrollBy({left:300,behavior:'smooth'}); ev.preventDefault(); }
   if(ev.key === 'ArrowLeft'){ rail.scrollBy({left:-300,behavior:'smooth'}); ev.preventDefault(); }
 });
+
+/* Ambil pengaturan dinamis dari Google Sheets (Banner & WhatsApp) */
+(async function(){
+  try {
+    if(!TKA_CONFIG || !TKA_CONFIG.GAS_URL || TKA_CONFIG.GAS_URL.includes('YOUR_SCRIPT_ID')) return;
+    var res = await fetch(TKA_CONFIG.GAS_URL + '?action=get_pengaturan_web');
+    var json = await res.json();
+    if(json.ok && json.data){
+      var d = json.data;
+      // 1. Banner Pengumuman
+      if(d.pengumuman_aktif && d.pengumuman_teks){
+        document.getElementById('ann-text').textContent = d.pengumuman_teks;
+        if(d.pengumuman_link) document.getElementById('ann-link').href = d.pengumuman_link;
+        document.getElementById('top-announcement').style.display = 'block';
+      }
+      // 2. Kontak WhatsApp
+      if(d.kontak_wa){
+        var waLink = 'https://wa.me/' + d.kontak_wa.replace(/\D/g,'') + '?text=' + encodeURIComponent(d.pesan_wa || 'Assalamualaikum, saya ingin bertanya tentang SPMB MTs Muhammadiyah Donorejo');
+        var kontakBtn = document.getElementById('kontak');
+        if(kontakBtn) kontakBtn.href = waLink;
+      }
+    }
+  } catch(e){}
+})();
 </script>
 </body>
 </html>
