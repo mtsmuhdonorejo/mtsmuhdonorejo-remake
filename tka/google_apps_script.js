@@ -1,26 +1,36 @@
 /**
  * =========================================================================
- * GOOGLE APPS SCRIPT - BACKEND TKA & PENGATURAN WEB MTs MUHAMMADIYAH DONOREJO
+ * GOOGLE APPS SCRIPT - SISTEM TKA FLEKSIBEL (HYBRID)
+ * MTs MUHAMMADIYAH DONOREJO (Future Leaders School)
  * =========================================================================
- * Fitur:
- * - Anti-Tabrakan Data Konkuren (LockService) saat banyak siswa submit bersamaan
- * - Pemisahan Kunci Jawaban (Aman dari inspect element)
- * - Penilaian & Leaderboard Otomatis
- * - Pengaturan Website & Status SPMB
+ * BISA DIAKSES LEWAT 2 JALUR:
+ * 1. Lewat Link Apps Script Langsung:
+ *    - Pendaftaran & Leaderboard : .../exec
+ *    - Ruang Ujian CBT           : .../exec?p=tryout
+ *    - Panel Admin               : .../exec?p=admin
+ * 2. Lewat Domain Resmi Madrasah (www.mtsmdonorejo.sch.id):
+ *    - Bertindak sebagai API database JSON otomatis
  * =========================================================================
  */
 
 const SPREADSHEET = SpreadsheetApp.getActiveSpreadsheet();
-const ADMIN_PIN_SECRET = "1912"; // PIN Kepala Sekolah & Admin
+const ADMIN_PIN_SECRET = "1912";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnlTp7bp3lGVFDAp0JUAcHWQbiC45leHYNX4dxcY6HyuzlH7YIYR8T3v8UYAO2krjc/exec";
 
 // -------------------------------------------------------------------------
-// 1. ENDPOINT GET
+// 1. ENDPOINT GET (API DATA ATAU RENDER TAMPILAN WEB)
 // -------------------------------------------------------------------------
 function doGet(e) {
   try {
     const p = e.parameter || {};
     const action = p.action;
     const now = new Date();
+
+    // JIKA TIDAK ADA ACTION -> TAMPILKAN HALAMAN WEB VISUAL SECARA LANGSUNG
+    if (!action) {
+      const page = p.p || p.page || '';
+      return renderTampilanWeb(page);
+    }
 
     // A. AMBIL PENGATURAN WEB UNTUK HALAMAN DEPAN
     if (action === 'get_pengaturan_web') {
@@ -60,8 +70,6 @@ function doGet(e) {
       const sheetS = SPREADSHEET.getSheetByName('soal');
       const rowsS = sheetS ? sheetS.getDataRange().getValues().slice(1) : [];
 
-      // Filter soal milik tryout ini & urutkan berdasarkan nomor
-      // Kunci jawaban TIDAK dikirim ke browser peserta demi keamanan
       const soalList = rowsS
         .filter(r => String(r[1]) === tryoutId)
         .sort((a, b) => Number(a[2]) - Number(b[2]))
@@ -92,7 +100,7 @@ function doGet(e) {
       });
     }
 
-    // C. AMBIL DATA LEADERBOARD / PERINGKAT PUBLIK (TOP 50)
+    // C. LEADERBOARD PERINGKAT TOP 50
     if (action === 'get_leaderboard') {
       const sheetP = SPREADSHEET.getSheetByName('percobaan');
       const sheetU = SPREADSHEET.getSheetByName('peserta');
@@ -132,7 +140,7 @@ function doGet(e) {
       return jsonResponse({ ok: true, data: leaderboard });
     }
 
-    // D. AMBIL DATA DASHBOARD ADMIN & KEPALA SEKOLAH
+    // D. DASHBOARD ADMIN
     if (action === 'get_admin_data') {
       if (p.pin !== ADMIN_PIN_SECRET) {
         return jsonResponse({ ok: false, msg: 'PIN akses tidak sah!' });
@@ -223,15 +231,14 @@ function doGet(e) {
 }
 
 // -------------------------------------------------------------------------
-// 2. ENDPOINT POST (DILENGKAPI LOCKSERVICE ANTI-TABRAKAN DATA)
+// 2. ENDPOINT POST
 // -------------------------------------------------------------------------
 function doPost(e) {
-  // Pasang Antrean Aman (LockService) dengan timeout 15 detik
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(15000);
   } catch (e) {
-    return jsonResponse({ ok: false, msg: 'Server sedang sibuk memproses jawaban peserta lain. Silakan coba 5 detik lagi.' });
+    return jsonResponse({ ok: false, msg: 'Server sedang sibuk. Silakan coba lagi.' });
   }
 
   try {
@@ -243,7 +250,7 @@ function doPost(e) {
     if (action === 'daftar') {
       const d = body.data || {};
       const sheet = SPREADSHEET.getSheetByName('peserta');
-      if (!sheet) return jsonResponse({ ok: false, msg: 'Tab peserta belum dibuat.' });
+      if (!sheet) return jsonResponse({ ok: false, msg: 'Tab peserta belum dibuat di spreadsheet.' });
 
       const id = Utilities.getUuid();
       const now = new Date();
@@ -272,7 +279,7 @@ function doPost(e) {
       });
     }
 
-    // B. LOGIN PESERTA
+    // B. LOGIN
     if (action === 'login') {
       const u = String(body.username || '').trim().toLowerCase();
       const p = String(body.password || '').trim();
@@ -283,7 +290,7 @@ function doPost(e) {
       const user = rows.find(r => String(r[1]).toLowerCase() === u && String(r[2]) === p);
 
       if (!user) {
-        return jsonResponse({ ok: false, msg: 'Username atau Password salah. Silakan periksa kembali!' });
+        return jsonResponse({ ok: false, msg: 'Username atau Password salah.' });
       }
 
       return jsonResponse({
@@ -328,7 +335,7 @@ function doPost(e) {
       });
     }
 
-    // D. SELESAI TRYOUT (DIJAMIN TIDAK AKAN TERTAMPAH DENGAN LOCKSERVICE)
+    // D. SELESAI TRYOUT
     if (action === 'selesai_tryout') {
       const pesertaId = String(body.peserta_id);
       const tryoutId = String(body.tryout_id);
@@ -421,13 +428,66 @@ function doPost(e) {
   } catch (err) {
     return jsonResponse({ ok: false, msg: err.toString() });
   } finally {
-    // Selalu lepaskan antrean setelah selesai memproses
     try { lock.releaseLock(); } catch(e){}
   }
 }
 
 // -------------------------------------------------------------------------
-// HELPER TAB PENGATURAN
+// 3. RENDER TAMPILAN WEB STANDALONE (BISA DIAKSES LEWAT LINK APPS SCRIPT)
+// -------------------------------------------------------------------------
+function renderTampilanWeb(page) {
+  let judul = "Tryout TKA — MTs Muhammadiyah Donorejo";
+  let targetUrl = "https://www.mtsmdonorejo.sch.id/tka/";
+
+  if (page === 'admin') {
+    judul = "Portal Admin & Kepala Sekolah — MTs Donorejo";
+    targetUrl = "https://www.mtsmdonorejo.sch.id/admin/";
+  } else if (page === 'tryout') {
+    judul = "Ruang Ujian CBT — MTs Donorejo";
+    targetUrl = "https://www.mtsmdonorejo.sch.id/tka/tryout.html";
+  }
+
+  // Tampilan pengalihan otomatis elegan yang bekerja di HP maupun laptop
+  const html = `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${judul}</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0A1628;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;text-align:center;padding:24px}
+.card{background:#12243D;border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:36px;max-width:480px;box-shadow:0 24px 50px rgba(0,0,0,.5)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 28px;border-radius:999px;font-weight:700;font-size:1rem;background:#22D3F5;color:#0A1628;text-decoration:none;margin-top:20px;transition:.2s}
+.btn:hover{background:#0B5FAD;color:#fff}
+.spin{width:36px;height:36px;border:3px solid rgba(255,255,255,.15);border-top-color:#22D3F5;border-radius:50%;margin:16px auto;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div style="font-size:2rem">🏫</div>
+  <h2 style="margin:12px 0 6px">${judul}</h2>
+  <p style="color:#9FB3CC;font-size:.9rem;line-height:1.5">Membuka portal resmi madrasah secara aman…</p>
+  <div class="spin"></div>
+  <a href="${targetUrl}" class="btn" id="btn-lanjut">Buka Halaman Sekarang →</a>
+</div>
+<script>
+setTimeout(function(){
+  window.top.location.href = "${targetUrl}";
+}, 600);
+</script>
+</body>
+</html>`;
+
+  return HtmlService.createHtmlOutput(html)
+    .setTitle(judul)
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+// -------------------------------------------------------------------------
+// HELPER TAB PENGATURAN & RESPONSE
 // -------------------------------------------------------------------------
 function bacaPengaturanWeb() {
   let sheet = SPREADSHEET.getSheetByName('pengaturan');
