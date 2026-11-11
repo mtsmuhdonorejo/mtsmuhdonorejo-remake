@@ -2,15 +2,11 @@
  * =========================================================================
  * GOOGLE APPS SCRIPT - BACKEND TKA & PENGATURAN WEB MTs MUHAMMADIYAH DONOREJO
  * =========================================================================
- * Salin dan tempel (copy-paste) seluruh isi file ini ke:
- * Google Sheets > menu Ekstensi > Apps Script
- *
- * Tab di Google Spreadsheet Anda:
- * 1. "tryout"     : [id, judul, durasi_menit, waktu_buka, waktu_tutup, aktif]
- * 2. "soal"       : [id, tryout_id, nomor, pertanyaan, gambar, opsi_a, opsi_b, opsi_c, opsi_d, kunci]
- * 3. "peserta"    : [id, username, password, nama, nama_ortu, no_wa, alamat, nama_sekolah, created_at]
- * 4. "percobaan"  : [id, peserta_id, tryout_id, mulai_at, selesai_at, durasi_detik, jawaban, benar, skor, total]
- * 5. "pengaturan" : [kunci, nilai] (Otomatis dibuat jika belum ada)
+ * Fitur:
+ * - Anti-Tabrakan Data Konkuren (LockService) saat banyak siswa submit bersamaan
+ * - Pemisahan Kunci Jawaban (Aman dari inspect element)
+ * - Penilaian & Leaderboard Otomatis
+ * - Pengaturan Website & Status SPMB
  * =========================================================================
  */
 
@@ -65,7 +61,7 @@ function doGet(e) {
       const rowsS = sheetS ? sheetS.getDataRange().getValues().slice(1) : [];
 
       // Filter soal milik tryout ini & urutkan berdasarkan nomor
-      // Kunci jawaban TIDAK dikirim ke browser peserta demi keamanan anti-bocor
+      // Kunci jawaban TIDAK dikirim ke browser peserta demi keamanan
       const soalList = rowsS
         .filter(r => String(r[1]) === tryoutId)
         .sort((a, b) => Number(a[2]) - Number(b[2]))
@@ -227,9 +223,17 @@ function doGet(e) {
 }
 
 // -------------------------------------------------------------------------
-// 2. ENDPOINT POST
+// 2. ENDPOINT POST (DILENGKAPI LOCKSERVICE ANTI-TABRAKAN DATA)
 // -------------------------------------------------------------------------
 function doPost(e) {
+  // Pasang Antrean Aman (LockService) dengan timeout 15 detik
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(15000);
+  } catch (e) {
+    return jsonResponse({ ok: false, msg: 'Server sedang sibuk memproses jawaban peserta lain. Silakan coba 5 detik lagi.' });
+  }
+
   try {
     const raw = e.postData && e.postData.contents ? e.postData.contents : '{}';
     const body = JSON.parse(raw);
@@ -324,7 +328,7 @@ function doPost(e) {
       });
     }
 
-    // D. SELESAI TRYOUT
+    // D. SELESAI TRYOUT (DIJAMIN TIDAK AKAN TERTAMPAH DENGAN LOCKSERVICE)
     if (action === 'selesai_tryout') {
       const pesertaId = String(body.peserta_id);
       const tryoutId = String(body.tryout_id);
@@ -416,6 +420,9 @@ function doPost(e) {
     return jsonResponse({ ok: false, msg: 'Aksi POST tidak valid.' });
   } catch (err) {
     return jsonResponse({ ok: false, msg: err.toString() });
+  } finally {
+    // Selalu lepaskan antrean setelah selesai memproses
+    try { lock.releaseLock(); } catch(e){}
   }
 }
 
@@ -454,7 +461,7 @@ function bacaPengaturanWeb() {
 function simpanKunciPengaturan(kunci, nilai) {
   let sheet = SPREADSHEET.getSheetByName('pengaturan');
   if (!sheet) {
-    bacaPengaturanWeb(); // auto create
+    bacaPengaturanWeb();
     sheet = SPREADSHEET.getSheetByName('pengaturan');
   }
 

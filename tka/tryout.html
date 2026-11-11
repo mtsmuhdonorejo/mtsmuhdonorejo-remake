@@ -28,6 +28,10 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;-webki
 .bar-in{max-width:1100px;margin:0 auto;height:62px;padding:0 var(--gut);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:.95rem}
 .brand img{width:32px;height:32px;object-fit:contain}
+.net-status{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.08);color:#C6D6EA}
+.net-dot{width:8px;height:8px;border-radius:50%;background:#32D583}
+.net-status.offline .net-dot{background:#F04438;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .timer{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:800;font-size:1.05rem;font-variant-numeric:tabular-nums;transition:background .3s,color .3s}
 .timer.warn{background:#FDB022;color:#1A1200}
 .timer.crit{background:#F04438;color:#fff}
@@ -108,11 +112,21 @@ h1{margin:14px 0 0;font-size:clamp(1.6rem,4.5vw,2.1rem);line-height:1.15;font-we
       <img src="../logo.png" alt="Logo" onerror="this.style.display='none'">
       <span id="header-judul">Tryout TKA Online</span>
     </div>
-    <div class="timer" id="timer" hidden>
-      <span id="timer-txt">00:00:00</span>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="net-status" id="net-badge">
+        <span class="net-dot"></span>
+        <span id="net-txt">Online</span>
+      </div>
+      <div class="timer" id="timer" hidden>
+        <span id="timer-txt">00:00:00</span>
+      </div>
     </div>
   </div>
 </header>
+
+<div id="offline-alert" style="display:none;background:#B42318;color:#fff;padding:10px 16px;text-align:center;font-size:0.86rem;font-weight:700;position:sticky;top:62px;z-index:35">
+  ⚠️ Koneksi internet terputus! Tenang, jangan panik & jangan keluar halaman. Jawaban Anda tetap tersimpan di HP.
+</div>
 
 <!-- 1. SCREEN LOADING -->
 <div class="screen on" id="s-load">
@@ -250,15 +264,48 @@ var STATE = {
   jawab: {},
   curIdx: 0,
   deadline: 0,
-  timerInterval: null
+  timerInterval: null,
+  screen: 'load'
 };
 
 function showScreen(name){
+  STATE.screen = name;
   ['load','intro','test','hasil'].forEach(function(s){
     $('s-' + s).classList.toggle('on', s === name);
   });
   $('timer').hidden = (name !== 'test');
 }
+
+// Proteksi Anti-Keluar Tidak Sengaja saat Ujian Berlangsung
+window.addEventListener('beforeunload', function(e){
+  if(STATE.screen === 'test'){
+    e.preventDefault();
+    e.returnValue = 'Ujian sedang berjalan! Jika Anda keluar atau memuat ulang halaman, waktu ujian tetap berjalan.';
+    return e.returnValue;
+  }
+});
+
+// Pantau Status Koneksi Internet Real-Time
+function updateNetStatus(){
+  var online = navigator.onLine;
+  var badge = $('net-badge');
+  var txt = $('net-txt');
+  var alertBox = $('offline-alert');
+  if(badge && txt && alertBox){
+    if(online){
+      badge.className = 'net-status';
+      txt.textContent = 'Online';
+      alertBox.style.display = 'none';
+    } else {
+      badge.className = 'net-status offline';
+      txt.textContent = 'Offline';
+      alertBox.style.display = 'block';
+    }
+  }
+}
+window.addEventListener('online', updateNetStatus);
+window.addEventListener('offline', updateNetStatus);
+updateNetStatus();
 
 // 1. INISIALISASI
 async function init(){
