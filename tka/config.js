@@ -1,10 +1,10 @@
 /**
  * KONFIGURASI APLIKASI TKA MTs MUHAMMADIYAH DONOREJO
- * Cukup ganti URL GAS_URL di bawah ini dengan URL Web App dari Google Apps Script Anda.
+ * Terhubung ke backend Google Apps Script & Google Sheets.
  */
 const TKA_CONFIG = {
-  // Masukkan URL Deployment Google Apps Script (berakhiran /exec) di sini:
-  GAS_URL: 'https://script.google.com/macros/s/AKfycbwYOUR_SCRIPT_ID_HERE/exec',
+  // URL Web App Deployment Google Apps Script:
+  GAS_URL: 'https://script.google.com/macros/s/AKfycbwnlTp7bp3lGVFDAp0JUAcHWQbiC45leHYNX4dxcY6HyuzlH7YIYR8T3v8UYAO2krjc/exec',
   
   // Identitas Madrasah
   NAMA_MADRASAH: 'MTs Muhammadiyah Donorejo',
@@ -12,6 +12,5 @@ const TKA_CONFIG = {
   TAHUN_PELAJARAN: '2026/2027',
   
   // PIN Default untuk Akses Dashboard Kepala Sekolah & Admin
-  // (Bisa Anda ganti sesuka hati)
   ADMIN_PIN: '1912'
 };
