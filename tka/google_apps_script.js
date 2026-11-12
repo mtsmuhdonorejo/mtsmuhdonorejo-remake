@@ -712,7 +712,8 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     <nav class="nav-links">
       <a href="#why">Kenapa kami</a>
       <a href="#program">Program</a>
-      <a href="#experience">Pengalaman</a>
+      <a href="#fasilitas">Fasilitas</a>
+      <a href="#alur">Alur SPMB</a>
       <a href="#alumni">Alumni</a>
       <a href="${SCRIPT_URL}?p=tka" style="color:var(--cyan);font-weight:700">Tryout TKA ✨</a>
     </nav>
@@ -807,28 +808,39 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
         <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,40,.05) 25%,rgba(10,22,40,.9) 100%)"></div>
         <span class="k" style="position:relative">P3Q</span>
         <h3 class="h3" style="position:relative">Pembiasaan Pagi Pemimpin Qurani</h3>
-        <p style="position:relative">Memulai hari dengan Al-Qur'an, ibadah, dan pembiasaan karakter.</p>
+        <p style="position:relative">Memulai hari dengan tilawah Al-Qur'an, sholat dhuha, doa bersama, dan penguatan karakter islami setiap pagi.</p>
       </article>
 
       <article class="card">
-        <div class="media" data-asset="[ASET] Foto mentoring"></div>
-        <span class="k">Personal mentoring</span>
+        <div style="margin:-30px -30px 20px;height:140px;background:linear-gradient(135deg,#0E294B,#143E6D);display:flex;align-items:center;justify-content:center">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#22D3F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span class="k">Personal Mentoring</span>
         <h3 class="h3">Setiap anak punya perjalanan.</h3>
-        <p>Target, proses, dan perkembangan didampingi.</p>
+        <p>Pendampingan satu per satu oleh wali kelas dan guru pembimbing agar target akademik dan akhlak terpantau nyata.</p>
       </article>
 
       <article class="card">
-        <div class="media" data-asset="[ASET] Foto suasana kelas"></div>
-        <span class="k">TKA &amp; akademik</span>
-        <h3 class="h3">Belajar dengan tujuan.</h3>
-        <p>Membangun kemampuan akademik dan kesiapan menghadapi masa depan.</p>
+        <div style="margin:-30px -30px 20px;height:140px;background:linear-gradient(135deg,#083866,#0B4F8F);display:flex;align-items:center;justify-content:center">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#22D3F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+        </div>
+        <span class="k">TKA &amp; Penguatan Akademik</span>
+        <h3 class="h3">Belajar dengan tujuan jelas.</h3>
+        <p>Pengayaan mata pelajaran utama berbasis CBT komputer untuk mempersiapkan lulusan melanjutkan ke jenjang SMA/SMK unggulan.</p>
       </article>
 
       <article class="card" style="grid-column:span 2">
-        <div class="media" data-asset="[ASET] Foto ekstrakurikuler"></div>
-        <span class="k">Ekstrakurikuler</span>
-        <h3 class="h3">Berani mencoba. Berani berkembang.</h3>
-        <p>Menemukan potensi melalui pengalaman.</p>
+        <span class="k">Pilihan Ekstrakurikuler</span>
+        <h3 class="h3">Berani mencoba. Berani berprestasi.</h3>
+        <p>Wadah pengembangan bakat, kepemimpinan, fisik, dan seni sesuai potensi setiap anak:</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:#EAF3FB;font-size:0.86rem;font-weight:700;color:var(--blue)">🥋 Tapak Suci Putera Muhammadiyah</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:#EAF3FB;font-size:0.86rem;font-weight:700;color:var(--blue)">⛺ Kepanduan Hizbul Wathan (HW)</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:#EAF3FB;font-size:0.86rem;font-weight:700;color:var(--blue)">📖 Tahfidz &amp; Tartil Qur'an</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:#EAF3FB;font-size:0.86rem;font-weight:700;color:var(--blue)">💻 TIK &amp; Desain Digital</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:#EAF3FB;font-size:0.86rem;font-weight:700;color:var(--blue)">⚽ Futsal &amp; Bulutangkis</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:#EAF3FB;font-size:0.86rem;font-weight:700;color:var(--blue)">🥁 Seni Musik Rebana / Hadroh</span>
+        </div>
       </article>
     </div>
   </div>
@@ -898,7 +910,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
         <h4>Lovita Ivan H., S.Pd.I, M.Pd</h4>
         <span>CEO Cv. Jasa Perkasa Gemilang</span>
       </article>
-      <article class="al"><div class="face"></div><h4>Nama Alumni</h4><span>Sekolah / universitas / bidang</span></article>
+      
     </div>
 
     <div class="al-close">
@@ -908,34 +920,180 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   </div>
 </section>
 
-<!-- ============ 06 SPMB ============ -->
-<section class="section spmb" id="spmb">
+<!-- ============ 06 FASILITAS & LINGKUNGAN BELAJAR ============ -->
+<section class="section" id="fasilitas" style="background:var(--paper)">
   <div class="wrap">
-    <span class="tag">SPMB MTs Muhammadiyah Donorejo</span>
-    <h2 class="h2">Masa depan dimulai dari pilihan hari ini.</h2>
-    <p class="spmb-sub">Pilih tempat anak belajar. Pilih tempat mereka tumbuh. Pilih tempat mereka mulai belajar memimpin.</p>
-   <div class="spmb-cta">
-      <a class="btn btn-glow" href="#" id="daftar">Daftar SPMB</a>
-      <a class="btn btn-ghost-dark" href="https://wa.me/6288232078761?text=Assalamualaikum%2C%20saya%20ingin%20bertanya%20tentang%20SPMB%20MTs%20Muhammadiyah%20Donorejo" target="_blank" id="kontak">Hubungi kami</a>
-      <a class="btn btn-glow" href="${SCRIPT_URL}?p=tka">Tryout TKA</a>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px">
+      <div>
+        <span class="tag">Fasilitas Madrasah</span>
+        <h2 class="h2" style="margin-top:16px">Ruang tumbuh yang representatif.</h2>
+      </div>
+      <p class="lead" style="max-width:40ch">Fasilitas memadai untuk mendukung proses belajar yang aman, nyaman, dan terarah.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:48px">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:28px 24px">
+        <div style="width:48px;height:48px;border-radius:12px;background:#EBF5FF;display:grid;place-items:center;color:var(--blue);margin-bottom:18px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3 class="h3" style="font-size:1.2rem">Lab Komputer &amp; CBT</h3>
+        <p style="color:var(--muted);font-size:0.94rem;margin:8px 0 0">Pusat tes digital, latihan soal TKA, dan pembelajaran berbasis teknologi dengan koneksi internet cepat.</p>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:28px 24px">
+        <div style="width:48px;height:48px;border-radius:12px;background:#EBF5FF;display:grid;place-items:center;color:var(--blue);margin-bottom:18px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3 class="h3" style="font-size:1.2rem">Musholla &amp; Pusat Tahfidz</h3>
+        <p style="color:var(--muted);font-size:0.94rem;margin:8px 0 0">Tempat sholat berjamaah harian, dhuha bersama, dan halaqah tahfidzul Qur'an setiap pagi.</p>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:28px 24px">
+        <div style="width:48px;height:48px;border-radius:12px;background:#EBF5FF;display:grid;place-items:center;color:var(--blue);margin-bottom:18px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3 class="h3" style="font-size:1.2rem">Perpustakaan &amp; Literasi</h3>
+        <p style="color:var(--muted);font-size:0.94rem;margin:8px 0 0">Koleksi buku pengetahuan, referensi keislaman, fiksi mendidik, dan area baca yang tenang.</p>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:28px 24px">
+        <div style="width:48px;height:48px;border-radius:12px;background:#EBF5FF;display:grid;place-items:center;color:var(--blue);margin-bottom:18px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <h3 class="h3" style="font-size:1.2rem">Lapangan Olahraga &amp; Upacara</h3>
+        <p style="color:var(--muted);font-size:0.94rem;margin:8px 0 0">Area terbuka untuk apel upacara, latihan Tapak Suci, kegiatan Hizbul Wathan, dan olahraga siswa.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<footer class="foot">
-  <div class="wrap foot-in">
-    <a class="brand" href="#top">
-      <span class="mark" style="background:none;padding:0">
-        <img src="https://www.mtsmdonorejo.sch.id/logo.png" alt="Logo MTs Muhammadiyah Donorejo" style="width:100%;height:100%;object-fit:contain">
-      </span>
-      <span class="brand-txt">
-        <span class="brand-name">MTs Muhammadiyah Donorejo</span>
-        <span class="brand-sub">Future Leaders School</span>
-      </span>
-    </a>
-    <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
-      <span>Future Leaders School · Donorejo</span>
-      <a href="https://www.mtsmdonorejo.sch.id/admin/" style="color:#9FB3CC;font-size:0.82rem;text-decoration:underline">Portal Admin 🔒</a>
+<!-- ============ 07 ALUR & SYARAT SPMB ============ -->
+<section class="section" id="alur" style="background:var(--white)">
+  <div class="wrap">
+    <div style="text-align:center;max-width:680px;margin:0 auto">
+      <span class="tag" style="justify-content:center">Informasi SPMB 2026/2027</span>
+      <h2 class="h2" style="margin-top:16px">Alur pendaftaran sederhana &amp; transparan.</h2>
+      <p class="lead" style="margin:16px auto 0">Tiga tahapan mudah untuk bergabung menjadi bagian dari Future Leaders School.</p>
+    </div>
+
+    <!-- 3 Langkah Alur -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:54px">
+      <div style="border:1.5px solid var(--line);border-radius:var(--r-m);padding:32px 26px;position:relative;background:var(--white)">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--cyan);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:1.1rem;margin-bottom:20px">1</div>
+        <h3 class="h3" style="font-size:1.25rem">Daftar &amp; Ikuti TKA</h3>
+        <p style="color:var(--muted);font-size:0.95rem;margin-top:10px;line-height:1.6">Calon siswa mendaftar online, mendapatkan akun gratis, dan mengikuti Tes Kemampuan Akademik (TKA) secara fleksibel dari rumah atau sekolah.</p>
+      </div>
+
+      <div style="border:1.5px solid var(--line);border-radius:var(--r-m);padding:32px 26px;position:relative;background:var(--white)">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.1rem;margin-bottom:20px">2</div>
+        <h3 class="h3" style="font-size:1.25rem">Observasi &amp; Pemetaan</h3>
+        <p style="color:var(--muted);font-size:0.95rem;margin-top:10px;line-height:1.6">Pemetaan baca Al-Qur'an dan wawancara santai bersama orang tua/wali untuk menyelaraskan pendampingan karakter anak.</p>
+      </div>
+
+      <div style="border:1.5px solid var(--line);border-radius:var(--r-m);padding:32px 26px;position:relative;background:var(--white)">
+        <div style="width:40px;height:40px;border-radius:50%;background:#067647;color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.1rem;margin-bottom:20px">3</div>
+        <h3 class="h3" style="font-size:1.25rem">Pengumuman &amp; Daftar Ulang</h3>
+        <p style="color:var(--muted);font-size:0.95rem;margin-top:10px;line-height:1.6">Pengumuman penerimaan, penyerahan kelengkapan berkas, pengukuran seragam madrasah, dan persiapan menyambut tahun ajaran baru.</p>
+      </div>
+    </div>
+
+    <!-- Syarat Berkas & Beasiswa Box -->
+    <div style="margin-top:40px;background:#F8FAFC;border:1.5px dashed #CBD5E1;border-radius:var(--r-m);padding:32px;display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center">
+      <div>
+        <h3 class="h3" style="font-size:1.2rem;display:flex;align-items:center;gap:10px">
+          <span>📋</span> Syarat Berkas Pendaftaran
+        </h3>
+        <ul style="margin:16px 0 0;padding-left:20px;color:var(--muted);font-size:0.94rem;line-height:1.8">
+          <li>Fotokopi Kartu Keluarga (KK) &amp; Akta Kelahiran (2 lembar)</li>
+          <li>Fotokopi Ijazah SD/MI atau Surat Keterangan Lulus (SKL)</li>
+          <li>Nomor Induk Siswa Nasional (NISN) dari sekolah asal</li>
+          <li>Pas foto berwarna terbaru ukuran 3x4 (3 lembar)</li>
+        </ul>
+      </div>
+      <div style="border-left:1px solid #E2E8F0;padding-left:24px">
+        <h3 class="h3" style="font-size:1.2rem;color:var(--blue);display:flex;align-items:center;gap:10px">
+          <span>⭐</span> Beasiswa Prestasi &amp; Tahfidz
+        </h3>
+        <p style="margin:12px 0 0;color:var(--muted);font-size:0.93rem;line-height:1.6">
+          Dapatkan keringanan biaya pendidikan bagi siswa berperingkat terbaik pada <b>Tes Kemampuan Akademik (TKA)</b> atau pemegang sertifikat tahfidz minimal 1 Juz.
+        </p>
+        <a class="btn btn-glow btn-sm" href="${SCRIPT_URL}?p=tka" style="margin-top:16px;display:inline-flex">Ikuti TKA Sekarang →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 SPMB CTA ============ -->
+<section class="section spmb" id="spmb">
+  <div class="wrap">
+    <span class="tag">SPMB MTs Muhammadiyah Donorejo 2026/2027</span>
+    <h2 class="h2">Masa depan dimulai dari pilihan hari ini.</h2>
+    <p class="spmb-sub">Pilih tempat anak belajar. Pilih tempat mereka tumbuh. Pilih tempat mereka mulai belajar memimpin.</p>
+    <div class="spmb-cta">
+      <a class="btn btn-glow" href="${SCRIPT_URL}?p=tka" id="daftar">Daftar SPMB / TKA Sekarang</a>
+      <a class="btn btn-ghost-dark" href="https://wa.me/6288232078761?text=Assalamualaikum%2C%20saya%20ingin%20bertanya%20tentang%20SPMB%20MTs%20Muhammadiyah%20Donorejo" target="_blank" id="kontak">Hubungi Panitia via WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot" style="padding:60px 0 36px">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:44px;border-bottom:1px solid var(--line-dark)">
+      <!-- Identitas Madrasah -->
+      <div>
+        <a class="brand" href="#top">
+          <span class="mark" style="background:none;padding:0">
+            <img src="https://www.mtsmdonorejo.sch.id/logo.png" alt="Logo MTs Muhammadiyah Donorejo" style="width:100%;height:100%;object-fit:contain">
+          </span>
+          <span class="brand-txt" style="margin-left:10px">
+            <span class="brand-name" style="font-size:1.05rem">MTs Muhammadiyah Donorejo</span>
+            <span class="brand-sub" style="color:var(--cyan)">Future Leaders School</span>
+          </span>
+        </a>
+        <p style="margin:16px 0 0;font-size:0.92rem;color:#9FB3CC;line-height:1.65;max-width:38ch">
+          Membentuk generasi pemimpin berakhlak mulia, cerdas dalam ilmu, berani dalam tindakan, dan berpegang teguh pada nilai-nilai Al-Qur'an.
+        </p>
+        <div style="display:flex;gap:10px;margin-top:18px">
+          <span style="font-size:0.8rem;background:rgba(255,255,255,.08);padding:4px 10px;border-radius:6px;color:#fff">NPSN: 20363700</span>
+          <span style="font-size:0.8rem;background:rgba(34,211,245,.15);border:1px solid rgba(34,211,245,.3);padding:4px 10px;border-radius:6px;color:var(--cyan)">Terakreditasi B</span>
+        </div>
+      </div>
+
+      <!-- Alamat & Lokasi -->
+      <div>
+        <b style="color:#fff;font-size:0.98rem;display:block;margin-bottom:14px;letter-spacing:-.01em">Lokasi &amp; Kontak</b>
+        <p style="margin:0;font-size:0.9rem;color:#9FB3CC;line-height:1.65">
+          📍 Kandongan RT 02 / RW 05, Desa Donorejo, Kec. Secang, Kab. Magelang, Jawa Tengah 56195
+        </p>
+        <p style="margin:10px 0 0;font-size:0.9rem;color:#9FB3CC">
+          📞 WhatsApp: <a href="https://wa.me/6288232078761" target="_blank" style="color:var(--cyan);text-decoration:underline">+62 882-3207-8761</a>
+        </p>
+        <p style="margin:6px 0 0;font-size:0.86rem;color:#7E93AC">
+          🕒 Pelayanan: Senin - Sabtu (07.30 - 13.30 WIB)
+        </p>
+        <a href="https://maps.google.com/?q=MTs+Muhammadiyah+Donorejo+Secang+Magelang" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:0.86rem;color:var(--cyan);text-decoration:underline">
+          Buka di Google Maps ↗
+        </a>
+      </div>
+
+      <!-- Navigasi & Tautan -->
+      <div>
+        <b style="color:#fff;font-size:0.98rem;display:block;margin-bottom:14px;letter-spacing:-.01em">Tautan Cepat</b>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px;font-size:0.9rem">
+          <li><a href="#why" style="color:#9FB3CC;transition:.2s">Kenapa Kami Berbeda</a></li>
+          <li><a href="#program" style="color:#9FB3CC;transition:.2s">Program Unggulan (P3Q)</a></li>
+          <li><a href="#fasilitas" style="color:#9FB3CC;transition:.2s">Fasilitas Madrasah</a></li>
+          <li><a href="#alur" style="color:#9FB3CC;transition:.2s">Alur &amp; Syarat SPMB</a></li>
+          <li><a href="${SCRIPT_URL}?p=tka" style="color:var(--cyan);font-weight:700">Daftar Tryout TKA Online →</a></li>
+          <li><a href="https://www.mtsmdonorejo.sch.id/admin/" style="color:#6E88A5;font-size:0.84rem;text-decoration:underline">Portal Admin &amp; Kepala Sekolah 🔒</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;padding-top:24px;font-size:0.86rem;color:#7E93AC">
+      <div>&copy; 2026 MTs Muhammadiyah Donorejo · Future Leaders School. Seluruh hak cipta dilindungi.</div>
+      <div>Dibangun untuk kemajuan pendidikan madrasah berdaya saing.</div>
     </div>
   </div>
 </footer>
